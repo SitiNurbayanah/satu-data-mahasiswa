@@ -1,8 +1,9 @@
 import React from "react";
-import DashboardHeader from "../components/DashboardHeader";
-import Sidebar from "../components/Sidebar";
+import Header from "../../components/Header";
+import Sidebar from "../../components/Sidebar";
+import Footer from "../../components/Footer";
 
-const Dashboard = () => {
+const DashboardMahasiswa = () => {
   const statsData = [
     {
       number: "79.420",
@@ -44,10 +45,10 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-layout">
-      <Sidebar />
+      <Sidebar isLoggedIn={true}/>
 
       <div className="dashboard-content">
-        <DashboardHeader />
+        <Header isLoggedIn={true}/>
 
         <main className="dashboard-main">
           <div className="hero-section">
@@ -98,13 +99,10 @@ const Dashboard = () => {
             </div>
           </div>
         </main>
-
-        <footer className="dashboard-footer">
-          <span>2025 SALAM</span>
-        </footer>
+        <Footer isLoggedIn={true}/>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default DashboardMahasiswa;

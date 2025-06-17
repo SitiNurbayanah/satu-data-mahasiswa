@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Header = () => {
+const Header = ({ isLoggedIn = false }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
@@ -8,6 +8,36 @@ const Header = () => {
     document.body.classList.toggle("dark-mode");
   };
 
+  // Render header untuk halaman login
+  if (!isLoggedIn) {
+    return (
+      <header className="header">
+        <div className="header-left">
+          <div className="logo">
+            <img src="/logo-uin.png" alt="SDM Logo"/>
+            <span className="logo-text">SDM</span>
+          </div>
+        </div>
+        <div className="header-right">
+          <span className="about-link">About</span>
+          <div className="theme-toggle">
+            <span className="theme-icon">☀️</span>
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={isDarkMode}
+                onChange={toggleDarkMode}
+              />
+              <span className="slider"></span>
+            </label>
+            <span className="theme-icon">🌙</span>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  // Render header untuk dashboard (setelah login)
   return (
     <header className="dashboard-header">
       <div className="header-left">
@@ -15,7 +45,7 @@ const Header = () => {
           <span className="hamburger">☰</span>
         </button>
         <div className="logo">
-          <span className="logo-icon">🌟</span>
+          <img src="/logo-uin.png" alt="SDM Logo"/>
           <span className="logo-text">SDM</span>
         </div>
       </div>
@@ -33,7 +63,7 @@ const Header = () => {
 
       <div className="header-right">
         <div className="theme-toggle">
-          <span className="theme-icon">🌙</span>
+          <span className="theme-icon">☀️</span>
           <label className="switch">
             <input
               type="checkbox"
@@ -42,7 +72,7 @@ const Header = () => {
             />
             <span className="slider"></span>
           </label>
-          <span className="theme-icon">☀️</span>
+          <span className="theme-icon">🌙</span>
         </div>
         <div className="user-profile">
           <span className="user-name">Alex Galon</span>

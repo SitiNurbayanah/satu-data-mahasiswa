@@ -1,0 +1,146 @@
+/* PopulationChart.css */
+.student-population-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+}
+
+.population-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.population-header {
+  width: 100%;
+  background-color: #1f2937;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.population-main {
+  flex: 1;
+  padding: 32px;
+  margin-left: 250px;
+}
+
+.population-chart-wrapper {
+    max-width: 1000px;
+    /* max-w-4xl equivalent */
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 50px;
+}
+
+.population-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: #111827;
+}
+
+.population-card {
+  background-color: #1f2937;
+  color: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  margin-right: 30px;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.population-card.wide {
+  width: 100%;
+}
+
+.population-card h2,
+.population-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.population-card .total {
+  font-size: 32px;
+  font-weight: bold;
+  color: #60a5fa;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.population-card.line-card {
+  height: 270px;
+  width: 90%;
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  align-self: flex-end;
+}
+
+.population-card.line-card canvas {
+  height: 75% !important;
+  width: 100% !important;
+}
+
+.chart-two-column {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  margin-top: 10px;
+}
+
+.left-card {
+  flex: 2;
+}
+
+.right-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .chart-two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .population-main {
+    padding: 16px;
+  }
+
+  .population-title {
+    font-size: 22px;
+  }
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.year-filter-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.year-filter {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.note {
+  text-align: center;
+  font-style: italic;
+  color: #d1d5db;
+  margin-top: 12px;
+}

@@ -1,0 +1,109 @@
+.graduation-chart-container {
+    margin-left: 250px;
+    display: flex;
+    background-color: #f9fafb;
+    min-height: 100vh;
+}
+
+.graduation-chart-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.graduation-chart-main {
+    flex: 1;
+    padding: 24px;
+}
+
+.graduation-chart-wrapper {
+    max-width: 1152px;
+    /* max-w-6xl equivalent */
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+}
+
+.back-button {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    color: #2563eb;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #1d4ed8;
+}
+
+.back-icon {
+    height: 20px;
+    width: 20px;
+    margin-right: 4px;
+}
+
+.graduation-chart-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.chart-container {
+    height: 500px;
+    margin-bottom: 32px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .graduation-chart-main {
+        padding: 16px;
+    }
+
+    .graduation-chart-wrapper {
+        padding: 16px;
+    }
+
+    .graduation-chart-title {
+        font-size: 20px;
+    }
+
+    .chart-container {
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .graduation-chart-container {
+        flex-direction: column;
+    }
+
+    .graduation-chart-main {
+        padding: 12px;
+    }
+
+    .graduation-chart-wrapper {
+        padding: 12px;
+    }
+
+    .graduation-chart-title {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    .chart-container {
+        height: 300px;
+        margin-bottom: 16px;
+    }
+
+    .back-button {
+        margin-bottom: 12px;
+    }
+}

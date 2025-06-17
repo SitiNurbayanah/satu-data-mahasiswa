@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginHeader from "../components/LoginHeader";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const Login = ({ setIsAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ const Login = ({ setIsAuthenticated }) => {
 
   return (
     <div className="login-page">
-      <LoginHeader />
+      <Header isLoggedIn={false}/>
 
       <main className="login-main">
         <div className="login-container">
@@ -81,10 +82,7 @@ const Login = ({ setIsAuthenticated }) => {
           </div>
         </div>
       </main>
-
-      <footer className="login-footer">
-        <span>2025 SALAM</span>
-      </footer>
+      <Footer/>
     </div>
   );
 };

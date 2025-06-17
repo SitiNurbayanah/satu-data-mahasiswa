@@ -1,11 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ isLoggedIn = false }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     // Reset authentication state
+    navigate("/login");
+  };
+
+  const handleLogin = () => {
     navigate("/login");
   };
 
@@ -25,20 +29,31 @@ const Sidebar = () => {
               <span className="nav-text">About</span>
             </a>
           </li>
-          <li className="nav-item">
-            <a href="#" className="nav-link">
-              <span className="nav-icon">📊</span>
-              <span className="nav-text">My Status</span>
-            </a>
-          </li>
+          {/* My Status hanya tampil jika user sudah login */}
+          {isLoggedIn && (
+            <li className="nav-item">
+              <a href="#" className="nav-link">
+                <span className="nav-icon">📊</span>
+                <span className="nav-text">My Status</span>
+              </a>
+            </li>
+          )}
         </ul>
       </nav>
 
+      {/* Tombol Login/Logout berdasarkan status login */}
       <div className="sidebar-footer">
-        <button className="logout-btn" onClick={handleLogout}>
-          <span className="logout-icon">🚪</span>
-          <span className="logout-text">LOGOUT</span>
-        </button>
+        {isLoggedIn ? (
+          <button className="logout-btn" onClick={handleLogout}>
+            <span className="logout-icon">🚪</span>
+            <span className="logout-text">LOGOUT</span>
+          </button>
+        ) : (
+          <button className="logout-btn" onClick={handleLogin}>
+            <span className="logout-icon">🔑</span>
+            <span className="logout-text">LOGIN</span>
+          </button>
+        )}
       </div>
     </aside>
   );
