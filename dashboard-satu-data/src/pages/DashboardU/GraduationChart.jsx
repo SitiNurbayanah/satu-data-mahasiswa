@@ -33,12 +33,12 @@ const GraduationChart = () => {
     const chartData = {
         labels: years,
         datasets: faculties.map((faculty, idx) => ({
-        label: faculty,
-        data: generateFacultyData(),
-        borderColor: `hsl(${idx * 40}, 70%, 50%)`,
-        backgroundColor: `hsl(${idx * 40}, 70%, 50%)`,
-        tension: 0.3,
-        borderWidth: 2
+            label: faculty,
+            data: generateFacultyData(),
+            borderColor: `hsl(${idx * 40}, 70%, 50%)`,
+            backgroundColor: `hsl(${idx * 40}, 70%, 50%)`,
+            tension: 0.3,
+            borderWidth: 2
         }))
     }
 
@@ -46,39 +46,36 @@ const GraduationChart = () => {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-        legend: {
-            position: 'bottom',
-            labels: { boxWidth: 12 }
-        }
+            legend: {
+                position: 'bottom',
+                labels: { boxWidth: 12 }
+            }
         },
         scales: {
-        y: {
-            min: 50,
-            max: 100,
-            title: { display: true, text: 'Persentase Kelulusan (%)' }
-        }
+            y: {
+                min: 50,
+                max: 100,
+                title: { display: true, text: 'Persentase Kelulusan (%)' }
+            }
         }
     }
 
     return (
-        <div className="graduation-chart-container">
+        <div className="graduation-page">
             <Sidebar />
-            <div className="graduation-chart-content">
-                <Header />
-                <main className="graduation-chart-main">
+            <div className="graduation-layout">
+                <Header className="graduation-header" isLoggedIn={false} />
+                <main className="graduation-main">
                     <div className="graduation-chart-wrapper">
-                        <button 
-                            onClick={() => navigate('/')}
-                            className="back-button"
-                        >
+                        <button onClick={() => navigate('/')} className="back-button">
                             <svg xmlns="http://www.w3.org/2000/svg" className="back-icon" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
                             </svg>
                             Kembali ke Dashboard
                         </button>
 
-                        <h1 className="graduation-chart-title">Grafik Kelulusan Mahasiswa per Fakultas Tahun 2020-2025</h1>
-                        
+                        <h1 className="graduation-title">Grafik Kelulusan Mahasiswa per Fakultas Tahun 2020-2025</h1>
+
                         <div className="chart-container">
                             <Line data={chartData} options={options} />
                         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Header = ({ isLoggedIn = false }) => {
+const Header = ({ isLoggedIn = false, userRole = "general", userName = "" }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
@@ -8,7 +8,12 @@ const Header = ({ isLoggedIn = false }) => {
     document.body.classList.toggle("dark-mode");
   };
 
-  // Render header untuk halaman login
+  // Tentukan nama pengguna berdasarkan role
+  const displayName = userRole === "eksekutif" 
+    ? "Mamat" 
+    : userName || (userRole === "mahasiswa" ? "Mahasiswa" : "Eksekutif");
+
+  // Render header untuk halaman login (general)
   if (!isLoggedIn) {
     return (
       <header className="header">
@@ -39,11 +44,8 @@ const Header = ({ isLoggedIn = false }) => {
 
   // Render header untuk dashboard (setelah login)
   return (
-    <header className="dashboard-header">
+    <header className={`dashboard-header ${userRole}`}>
       <div className="header-left">
-        <button className="menu-toggle">
-          <span className="hamburger">☰</span>
-        </button>
         <div className="logo">
           <img src="/logo-uin.png" alt="SDM Logo"/>
           <span className="logo-text">SDM</span>
@@ -51,10 +53,21 @@ const Header = ({ isLoggedIn = false }) => {
       </div>
 
       <div className="header-center">
+        {userRole === "eksekutif" && (
+          <div className="admin-badge">
+            <span className="badge-icon">⭐</span>
+          </div>
+        )}
         <div className="search-container">
           <input
             type="text"
-            placeholder="Search Course, Reports and Notes"
+            placeholder={
+              userRole === "eksekutif" 
+                ? "Search Reports and Analytics" 
+                : userRole === "mahasiswa" 
+                ? "Search Courses and Notes" 
+                : "Search"
+            }
             className="search-input"
           />
           <span className="search-icon">🔍</span>
@@ -75,8 +88,13 @@ const Header = ({ isLoggedIn = false }) => {
           <span className="theme-icon">🌙</span>
         </div>
         <div className="user-profile">
-          <span className="user-name">Alex Galon</span>
-          <div className="user-avatar">👤</div>
+          <span className="user-name">{displayName}</span>
+          <div className="user-avatar">
+            {userRole === "eksekutif" ? "👔" : userRole === "mahasiswa" ? "🎓" : "👤"}
+          </div>
+          {userRole === "eksekutif" && (
+            <div className="user-role-badge">EKSEKUTIF</div>
+          )}
         </div>
       </div>
     </header>

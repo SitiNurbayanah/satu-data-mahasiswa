@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 
-const DashboardMahasiswa = () => {
+const DashboardMahasiswa = ({ user, onLogout }) => {
   const statsData = [
     {
       number: "79.420",
@@ -45,10 +45,10 @@ const DashboardMahasiswa = () => {
 
   return (
     <div className="dashboard-layout">
-      <Sidebar isLoggedIn={true}/>
+      <Sidebar isLoggedIn={true} userRole="mahasiswa" onLogout={onLogout}/>
 
       <div className="dashboard-content">
-        <Header isLoggedIn={true}/>
+        <Header isLoggedIn={true} user={user} onLogout={onLogout}/>
 
         <main className="dashboard-main">
           <div className="hero-section">

@@ -13,4 +13,6 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Untuk run:
 Download node_modules: npm install
+
+
 Download chart: npm install react-chartjs-2 chart.js

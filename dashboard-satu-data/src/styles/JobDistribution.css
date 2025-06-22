@@ -1,178 +1,190 @@
-.job-distribution-container {
-    margin-left: 250px;
-    display: flex;
-    background-color: #f9fafb;
-    min-height: 100vh;
+/* JobDistribution.css - Updated to match PopulationChart style */
+
+/* Main container - matches PopulationChart structure */
+.job-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f3f4f6;
 }
 
-.job-distribution-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.job-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.job-distribution-main {
-    flex: 1;
-    padding: 24px;
+/* Header - matches PopulationChart exactly */
+.job-header {
+  width: 100%;
+  background-color: #1f2937;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 100;
 }
 
-.job-distribution-wrapper {
-    max-width: 896px;
-    /* max-w-4xl equivalent */
-    margin: 0 auto;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 24px;
+/* Main content area */
+.job-main {
+  flex: 1;
+  padding: 32px;
+  margin-left: 250px; /* Match sidebar width */
 }
 
+/* Wrapper for chart content */
+.job-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+}
+
+/* Title style - matches PopulationChart */
+.job-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: #111827;
+}
+
+/* Back button - keep your existing style */
 .back-button {
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    color: #2563eb;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    transition: color 0.3s ease;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  color: #2563eb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .back-button:hover {
-    color: #1d4ed8;
+  color: #1d4ed8;
 }
 
 .back-icon {
-    height: 20px;
-    width: 20px;
-    margin-right: 4px;
+  height: 20px;
+  width: 20px;
+  margin-right: 4px;
 }
 
-.job-distribution-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #1f2937;
-    margin-bottom: 24px;
-    text-align: center;
-}
-
+/* Chart container */
 .pie-chart-container {
-    height: 384px;
-    /* h-96 equivalent */
-    margin-bottom: 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  height: 400px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* Job fields section */
 .job-fields-section {
-    margin-top: 20px;
+  margin-top: 32px;
 }
 
 .job-fields-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: #1f2937;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1f2937;
+  text-align: center;
 }
 
 .job-fields-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .job-field-item {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #f9fafb;
+  border-radius: 6px;
 }
 
 .job-field-color {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-    border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  border-radius: 50%;
 }
 
 .job-field-text {
-    font-weight: 500;
-    color: #374151;
+  font-weight: 500;
+  color: #374151;
+  font-size: 15px;
 }
 
-/* Responsive Design */
+/* Responsive Design - adjusted to match PopulationChart */
 @media (max-width: 1024px) {
-    .job-distribution-main {
-        padding: 16px;
-    }
-
-    .job-distribution-wrapper {
-        padding: 16px;
-    }
-
-    .job-distribution-title {
-        font-size: 20px;
-    }
-
-    .pie-chart-container {
-        height: 320px;
-    }
+  .job-main {
+    padding: 24px;
+    margin-left: 0;
+  }
+  
+  .job-wrapper {
+    padding: 32px;
+  }
+  
+  .job-title {
+    font-size: 24px;
+  }
+  
+  .pie-chart-container {
+    height: 350px;
+  }
 }
 
 @media (max-width: 768px) {
-    .job-distribution-container {
-        flex-direction: column;
-    }
-
-    .job-distribution-main {
-        padding: 12px;
-    }
-
-    .job-distribution-wrapper {
-        padding: 12px;
-    }
-
-    .job-distribution-title {
-        font-size: 18px;
-        margin-bottom: 16px;
-    }
-
-    .pie-chart-container {
-        height: 280px;
-        margin-bottom: 20px;
-    }
-
-    .job-fields-title {
-        font-size: 16px;
-        margin-bottom: 12px;
-    }
-
-    .job-field-text {
-        font-size: 14px;
-    }
-
-    .back-button {
-        margin-bottom: 12px;
-    }
+  .job-main {
+    padding: 16px;
+  }
+  
+  .job-wrapper {
+    padding: 24px;
+  }
+  
+  .job-title {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .pie-chart-container {
+    height: 300px;
+  }
+  
+  .job-fields-title {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 480px) {
-    .job-distribution-wrapper {
-        padding: 8px;
-    }
-
-    .pie-chart-container {
-        height: 240px;
-    }
-
-    .job-distribution-title {
-        font-size: 16px;
-    }
-
-    .job-fields-title {
-        font-size: 14px;
-    }
-
-    .job-field-text {
-        font-size: 13px;
-    }
+  .job-wrapper {
+    padding: 16px;
+  }
+  
+  .job-title {
+    font-size: 18px;
+  }
+  
+  .pie-chart-container {
+    height: 250px;
+  }
+  
+  .job-fields-list {
+    max-width: 100%;
+  }
+  
+  .job-field-text {
+    font-size: 14px;
+  }
 }

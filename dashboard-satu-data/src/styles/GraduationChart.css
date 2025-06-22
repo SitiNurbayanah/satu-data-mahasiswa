@@ -1,109 +1,127 @@
-.graduation-chart-container {
-    margin-left: 250px;
-    display: flex;
-    background-color: #f9fafb;
-    min-height: 100vh;
+.graduation-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f3f4f6;
 }
 
-.graduation-chart-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.graduation-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.graduation-chart-main {
-    flex: 1;
-    padding: 24px;
+/* Header - now matches PopulationChart exactly */
+.graduation-header {
+  width: 100%;
+  background-color: #1f2937;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 100;
 }
 
+/* Main content area */
+.graduation-main {
+  flex: 1;
+  padding: 32px;
+  margin-left: 250px; /* Match sidebar width */
+}
+
+/* Wrapper for chart content */
 .graduation-chart-wrapper {
-    max-width: 1152px;
-    /* max-w-6xl equivalent */
-    margin: 0 auto;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 50px;
 }
 
+/* Title style - matches PopulationChart */
+.graduation-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: #111827;
+}
+
+/* Back button - keep your existing style */
 .back-button {
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    color: #2563eb;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    transition: color 0.3s ease;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  color: #2563eb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .back-button:hover {
-    color: #1d4ed8;
+  color: #1d4ed8;
 }
 
 .back-icon {
-    height: 20px;
-    width: 20px;
-    margin-right: 4px;
+  height: 20px;
+  width: 20px;
+  margin-right: 4px;
 }
 
-.graduation-chart-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #1f2937;
-    margin-bottom: 24px;
-    text-align: center;
-}
-
+/* Chart container */
 .chart-container {
-    height: 500px;
-    margin-bottom: 32px;
+  height: 500px;
+  margin-bottom: 32px;
 }
 
-/* Responsive Design */
+/* Responsive Design - adjusted to match PopulationChart */
 @media (max-width: 1024px) {
-    .graduation-chart-main {
-        padding: 16px;
-    }
-
-    .graduation-chart-wrapper {
-        padding: 16px;
-    }
-
-    .graduation-chart-title {
-        font-size: 20px;
-    }
-
-    .chart-container {
-        height: 400px;
-    }
+  .graduation-main {
+    padding: 24px;
+    margin-left: 0;
+  }
+  
+  .graduation-chart-wrapper {
+    padding: 32px;
+  }
+  
+  .graduation-title {
+    font-size: 24px;
+  }
 }
 
 @media (max-width: 768px) {
-    .graduation-chart-container {
-        flex-direction: column;
-    }
+  .graduation-main {
+    padding: 16px;
+  }
+  
+  .graduation-chart-wrapper {
+    padding: 24px;
+  }
+  
+  .graduation-title {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .chart-container {
+    height: 400px;
+  }
+}
 
-    .graduation-chart-main {
-        padding: 12px;
-    }
-
-    .graduation-chart-wrapper {
-        padding: 12px;
-    }
-
-    .graduation-chart-title {
-        font-size: 18px;
-        margin-bottom: 16px;
-    }
-
-    .chart-container {
-        height: 300px;
-        margin-bottom: 16px;
-    }
-
-    .back-button {
-        margin-bottom: 12px;
-    }
+@media (max-width: 480px) {
+  .graduation-chart-wrapper {
+    padding: 16px;
+  }
+  
+  .graduation-title {
+    font-size: 18px;
+  }
+  
+  .chart-container {
+    height: 300px;
+    margin-bottom: 24px;
+  }
 }

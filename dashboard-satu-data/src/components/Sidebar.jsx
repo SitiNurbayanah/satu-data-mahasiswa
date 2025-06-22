@@ -1,17 +1,34 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = ({ isLoggedIn = false }) => {
+const Sidebar = ({ 
+  isLoggedIn = false, 
+  userRole = "general",
+  setIsAuthenticated,
+  setUserData = () => {}
+}) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Reset authentication state
-    navigate("/login");
+    if (typeof setIsAuthenticated === 'function') {
+      setIsAuthenticated(false);
+    }
+    if (typeof setUserData === 'function') {
+      setUserData(null);
+    }
+    
+    localStorage.removeItem('authToken');
+    
+    navigate("/");
+    window.location.reload();
   };
 
   const handleLogin = () => {
     navigate("/login");
   };
+
+  // Check if user is executive
+  const isExecutive = userRole === "eksekutif";
 
   return (
     <aside className="sidebar">
@@ -29,6 +46,7 @@ const Sidebar = ({ isLoggedIn = false }) => {
               <span className="nav-text">About</span>
             </a>
           </li>
+          
           {/* My Status hanya tampil jika user sudah login */}
           {isLoggedIn && (
             <li className="nav-item">
@@ -37,6 +55,30 @@ const Sidebar = ({ isLoggedIn = false }) => {
                 <span className="nav-text">My Status</span>
               </a>
             </li>
+          )}
+
+          {/* Executive Dashboard Features - hanya tampil untuk eksekutif */}
+          {isLoggedIn && isExecutive && (
+            <>
+              <li className="nav-item">
+                <a href="#" className="nav-link">
+                  <span className="nav-icon">📈</span>
+                  <span className="nav-text">Statistik</span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#" className="nav-link">
+                  <span className="nav-icon">⚡</span>
+                  <span className="nav-text">Evaluasi Kinerja</span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#" className="nav-link">
+                  <span className="nav-icon">💰</span>
+                  <span className="nav-text">UKT</span>
+                </a>
+              </li>
+            </>
           )}
         </ul>
       </nav>

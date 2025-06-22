@@ -50,12 +50,12 @@ const JobDistribution = () => {
   }
 
   return (
-    <div className="job-distribution-container">
+    <div className="job-page">
       <Sidebar />
-      <div className="job-distribution-content">
-        <Header />
-        <main className="job-distribution-main">
-          <div className="job-distribution-wrapper">
+      <div className="job-layout">
+        <Header className="job-header" isLoggedIn={false} />
+        <main className="job-main">
+          <div className="job-wrapper">
             {/* Back Button */}
             <button 
               onClick={() => navigate('/')}
@@ -67,7 +67,7 @@ const JobDistribution = () => {
               Kembali ke Dashboard
             </button>
 
-            <h1 className="job-distribution-title">Grafik Persebaran Bidang Kerja</h1>
+            <h1 className="job-title">Grafik Persebaran Bidang Kerja</h1>
             
             {/* Pie Chart */}
             <div className="pie-chart-container">

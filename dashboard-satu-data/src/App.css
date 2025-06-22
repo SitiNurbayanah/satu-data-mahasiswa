@@ -425,10 +425,11 @@ input:checked + .slider:before {
 
 .stat-icon {
   position: absolute;
-  right: 1.5rem;
-  top: 1.5rem;
+  transform: scale(1.5);
+  transform-origin: center;
+  right: 3rem;
+  top: 3rem;
   font-size: 3rem;
-  opacity: 0.3;
 }
 
 /* Categories Section */
