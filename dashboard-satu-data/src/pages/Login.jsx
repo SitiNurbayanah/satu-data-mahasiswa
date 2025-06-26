@@ -1,132 +1,107 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const Login = ({ setIsAuthenticated, onLogin, isAuthenticated }) => {
-  const [formData, setFormData] = useState({
-    nim: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+const Login = ({ setIsAuthenticated, setUserRole, setCurrentUser }) => {
+  const [nimNip, setNimNip] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/dashboard");
-    }
-  }, [isAuthenticated, navigate]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    // Clear error saat user mulai mengetik
-    if (error) setError("");
-  };
-
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
+    setErrorMessage("");
 
-    if (!formData.nim || !formData.password) {
-      setError("Mohon isi NIM/NIP dan Password");
-      setLoading(false);
-      return;
-    }
+    const isMahasiswa = /^\d{8,}$/.test(nimNip); // NIM biasanya 8 digit atau lebih
+    const endpoint = isMahasiswa ? "/auth/mahasiswa" : "/auth/dosen";
 
-    // Gunakan fungsi login dari App.js
-    const result = onLogin(formData.nim, formData.password);
-    
-    if (result.success) {
-      setIsAuthenticated(true);
-      navigate("/dashboard-umum");
-    } else {
-      setError(result.message || "Login gagal");
+    const payload = isMahasiswa
+      ? { nim: nimNip, password }
+      : { dosen_id: nimNip, password };
+
+    try {
+      const response = await fetch(`http://localhost:5000${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      console.log("Login response:", data); // Debug log
+
+      if (response.ok) {
+        const userData = data.data; // ✅ perbaikan utama di sini
+        let role = userData.role;
+
+        // Ubah role "dosen" menjadi "eksekutif" agar cocok dengan App.jsx
+        if (role === "dosen") {
+          role = "eksekutif";
+        }
+
+        // Simpan ke localStorage
+        localStorage.setItem("role", role);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // Update state di App.jsx (jika props disediakan)
+        if (setIsAuthenticated) setIsAuthenticated(true);
+        if (setUserRole) setUserRole(role);
+        if (setCurrentUser) setCurrentUser(userData);
+
+        // Redirect ke dashboard
+        navigate("/dashboard");
+      } else {
+        setErrorMessage(data.message || "Login gagal. Coba lagi.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setErrorMessage("Terjadi kesalahan jaringan.");
     }
-    
-    setLoading(false);
   };
-
-  // Data demo accounts
-  // const demoMahasiswa = [
-  //   { nim: "20210001", password: "mahasiswa123", name: "Ahmad Rizky Pratama" },
-  //   { nim: "20210002", password: "student456", name: "Siti Nurhaliza" },
-  //   { nim: "20220015", password: "rizky2022", name: "Rizky Ramadhan" }
-  // ];
-
-  // const demoEksekutif = [
-  //   { nip: "198501012010121001", password: "rektor2024", name: "Prof. Dr. H. Bambang Sutrisno" },
-  //   { nip: "197803152005012002", password: "warek123", name: "Prof. Dr. Sri Wahyuni" },
-  //   { nip: "198012102008011003", password: "dekan456", name: "Dr. Agus Setiawan" }
-  // ];
 
   return (
     <div className="login-page">
-      <Header isLoggedIn={false}/>
-
+      <Header />
       <main className="login-main">
         <div className="login-container">
           <div className="login-card">
-            <h1 className="login-title">Login</h1>
-
-            <form onSubmit={handleSubmit} className="login-form">
+            <h2 className="login-title">Login</h2>
+            <form className="login-form" onSubmit={handleLogin}>
               <div className="form-group">
-                <label htmlFor="nim" className="form-label">
-                  NIM/NIP
-                </label>
+                <label htmlFor="nimNip" className="form-label">NIM/NIP</label>
                 <input
                   type="text"
-                  id="nim"
-                  name="nim"
-                  value={formData.nim}
-                  onChange={handleInputChange}
-                  placeholder="Masukkan NIM/NIP"
+                  id="nimNip"
+                  value={nimNip}
+                  onChange={(e) => setNimNip(e.target.value)}
                   className="form-input"
+                  placeholder="Masukkan NIM atau NIP"
                   required
-                  disabled={loading}
                 />
               </div>
-
               <div className="form-group">
-                <label htmlFor="password" className="form-label">
-                  Password
-                </label>
+                <label htmlFor="password" className="form-label">Password</label>
                 <input
                   type="password"
                   id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Masukkan Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="form-input"
+                  placeholder="Masukkan password"
                   required
-                  disabled={loading}
                 />
               </div>
-
-              {error && (
-                <div className="error-message">
-                  {error}
-                </div>
+              <button type="submit" className="login-button">Masuk</button>
+              {errorMessage && (
+                <p className="login-info" style={{ color: "red" }}>{errorMessage}</p>
               )}
-
-              <button type="submit" className="login-button" disabled={loading}>
-                {loading ? "Memproses..." : "Masuk"}
-              </button>
-
-              <div className="login-info">
-                <span>• Masuk menggunakan akun salam</span>
-              </div>
             </form>
           </div>
         </div>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
