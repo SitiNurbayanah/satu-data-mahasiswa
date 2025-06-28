@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = ({
   isLoggedIn = false,
@@ -29,7 +30,9 @@ const Header = ({
           </div>
         </div>
         <div className="header-right">
-          <span className="about-link">About</span>
+          <Link to="/about" className="about-link" style={{ color: "white" }}>
+            About
+          </Link>
           <div className="theme-toggle">
             <span className="theme-icon">☀️</span>
             <label className="switch">
@@ -80,6 +83,9 @@ const Header = ({
       </div>
 
       <div className="header-right">
+        <Link to="/about" className="about-link" style={{ color: "white" }}>
+          About
+        </Link>
         <div className="theme-toggle">
           <span className="theme-icon">☀️</span>
           <label className="switch">
