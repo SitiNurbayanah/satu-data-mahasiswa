@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import DashboardMahasiswa from "./pages/DashboardM/Dashboard-mahasiswa";
 import DashboardEksekutif from "./pages/DashboardE/Dashboard-eksekutif";
 import DashboardUmum from "./pages/DashboardU/Dashboard-umum";
+import About from "./pages/DashboardU/About";
 import StudentPopulationPage from "./pages/DashboardU/PopulationChart";
 import GraduationChart from "./pages/DashboardU/GraduationChart";
 import JobDistribution from "./pages/DashboardU/JobDistribution";
@@ -205,6 +206,9 @@ function App() {
         <Routes>
           {/* Halaman default langsung ke DashboardUmum */}
           <Route path="/" element={<DashboardUmum />} />
+
+          {/* Route untuk About */}
+          <Route path="/about" element={<About />} />
 
           {/* Route untuk halaman-halaman khusus */}
           <Route path="/population-chart" element={<StudentPopulationPage />} />
