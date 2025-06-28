@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -19,6 +20,7 @@ import Footer from "../../components/Footer";
 const MyStatistik = ({ user, onLogout }) => {
   const [selectedSemester, setSelectedSemester] = useState("Semester 1");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Data untuk setiap semester
   const semesterData = {
@@ -93,7 +95,7 @@ const MyStatistik = ({ user, onLogout }) => {
   const currentData = semesterData[selectedSemester];
 
   const handleViewMore = () => {
-    alert("Navigating to Kinerja Akademik");
+    navigate("/kinerja-akademik");
   };
 
   return (

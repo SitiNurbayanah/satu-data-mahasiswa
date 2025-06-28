@@ -15,6 +15,10 @@ import JobDistribution from "./pages/DashboardU/JobDistribution";
 import Statistik from "./pages/DashboardE/Statistik";
 import KinerjaDosen from "./pages/DashboardE/kinerja_dosen";
 import PembayaranUKT from "./pages/DashboardE/PembayaranUKT";
+// Import komponen dari DashboardM
+import KinerjaAkademik from "./pages/DashboardM/kinerja_akademik";
+import MyStatistik from "./pages/DashboardM/my-statistik";
+import CourseHistoryChart from "./pages/DashboardM/CourseHistoryChart";
 import "./App.css";
 
 // Data dummy untuk login
@@ -243,6 +247,7 @@ function App() {
             }
           />
 
+          {/* Routes untuk Eksekutif Dashboard */}
           <Route
             path="/statistik"
             element={
@@ -252,7 +257,6 @@ function App() {
             }
           />
 
-          {/* Route for KinerjaDosen */}
           <Route
             path="/kinerja-dosen"
             element={
@@ -262,12 +266,42 @@ function App() {
             }
           />
 
-          {/* Route for PembayaranUKT */}
           <Route
             path="/pembayaran-ukt"
             element={
               <ProtectedRoute allowedRoles={["eksekutif"]}>
                 <PembayaranUKT user={currentUser} onLogout={handleLogout} />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Routes untuk Mahasiswa Dashboard */}
+          <Route
+            path="/kinerja-akademik"
+            element={
+              <ProtectedRoute allowedRoles={["mahasiswa"]}>
+                <KinerjaAkademik user={currentUser} onLogout={handleLogout} />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/my-statistik"
+            element={
+              <ProtectedRoute allowedRoles={["mahasiswa"]}>
+                <MyStatistik user={currentUser} onLogout={handleLogout} />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/riwayat-mata-kuliah"
+            element={
+              <ProtectedRoute allowedRoles={["mahasiswa"]}>
+                <CourseHistoryChart
+                  user={currentUser}
+                  onLogout={handleLogout}
+                />
               </ProtectedRoute>
             }
           />

@@ -138,25 +138,6 @@ const Sidebar = ({
           {isLoggedIn && isExecutive && (
             <>
               <li
-                className={`nav-item ${
-                  isActive("/my-statistik") || isActive("/statistik")
-                    ? "active"
-                    : ""
-                }`}
-              >
-                <a
-                  href="#"
-                  className="nav-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleMyStatusClick();
-                  }}
-                >
-                  <span className="nav-icon">📊</span>
-                  <span className="nav-text">My Status</span>
-                </a>
-              </li>
-              <li
                 className={`nav-item ${isActive("/statistik") ? "active" : ""}`}
               >
                 <a
@@ -167,8 +148,23 @@ const Sidebar = ({
                     handleNavigation("/statistik");
                   }}
                 >
-                  <span className="nav-icon">📈</span>
+                  <span className="nav-icon">📊</span>
                   <span className="nav-text">Statistik</span>
+                </a>
+              </li>
+              <li
+                className={`nav-item ${isActive("/dashboard") ? "active" : ""}`}
+              >
+                <a
+                  href="#"
+                  className="nav-link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation("/dashboard");
+                  }}
+                >
+                  <span className="nav-icon">🎯</span>
+                  <span className="nav-text">Executive Dashboard</span>
                 </a>
               </li>
               <li

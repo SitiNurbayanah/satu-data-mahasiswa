@@ -4,33 +4,6 @@ import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 
 const KinerjaAkademik = ({ user, onLogout }) => {
-  const academicStats = [
-    {
-      number: "3.45",
-      label: "IPK Rata-rata",
-      icon: "📊",
-      bgColor: "#27ae60",
-    },
-    {
-      number: "142",
-      label: "SKS Lulus",
-      icon: "📚",
-      bgColor: "#3498db",
-    },
-    {
-      number: "6",
-      label: "Semester Aktif",
-      icon: "🗓️",
-      bgColor: "#e74c3c",
-    },
-    {
-      number: "85%",
-      label: "Tingkat Kehadiran",
-      icon: "✅",
-      bgColor: "#f39c12",
-    },
-  ];
-
   // Data semester dengan progress seperti di gambar
   const semesterProgress = [
     { semester: "Semester 1", progress: 100 },
@@ -41,30 +14,6 @@ const KinerjaAkademik = ({ user, onLogout }) => {
     { semester: "Semester 6", progress: 0 },
     { semester: "Semester 7", progress: 0 },
     { semester: "Semester 8", progress: 0 },
-  ];
-
-  const achievements = [
-    {
-      title: "Dean's List",
-      semester: "Semester 3",
-      description: "IPK >= 3.5 dengan minimal 18 SKS",
-      icon: "🏆",
-      color: "#f1c40f",
-    },
-    {
-      title: "Prestasi Akademik",
-      semester: "Semester 2",
-      description: "Juara 2 Kompetisi Programming",
-      icon: "🥈",
-      color: "#95a5a6",
-    },
-    {
-      title: "Kehadiran Sempurna",
-      semester: "Semester 1",
-      description: "100% kehadiran selama semester",
-      icon: "⭐",
-      color: "#e67e22",
-    },
   ];
 
   // Komponen Donut Chart
@@ -206,123 +155,6 @@ const KinerjaAkademik = ({ user, onLogout }) => {
               <div style={{ position: "relative" }}>
                 <DonutChart />
               </div>
-            </div>
-          </div>
-
-          {/* Academic Statistics */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "1rem",
-              marginBottom: "2rem",
-            }}
-          >
-            {academicStats.map((stat, index) => (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: "#1a1a1a",
-                  padding: "1.5rem",
-                  borderRadius: "0.75rem",
-                  textAlign: "center",
-                  border: "1px solid #333",
-                }}
-              >
-                <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>
-                  {stat.icon}
-                </div>
-                <div
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: "bold",
-                    marginBottom: "0.25rem",
-                    color: stat.bgColor,
-                  }}
-                >
-                  {stat.number}
-                </div>
-                <div style={{ fontSize: "0.9rem", color: "#ccc" }}>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Achievements */}
-          <div
-            style={{
-              backgroundColor: "#1a1a1a",
-              borderRadius: "0.75rem",
-              padding: "2rem",
-              border: "1px solid #333",
-            }}
-          >
-            <h2
-              style={{
-                fontSize: "1.5rem",
-                marginBottom: "1.5rem",
-                textAlign: "center",
-              }}
-            >
-              Prestasi & Pencapaian
-            </h2>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                gap: "1rem",
-              }}
-            >
-              {achievements.map((achievement, index) => (
-                <div
-                  key={index}
-                  style={{
-                    backgroundColor: "#2a2a2a",
-                    padding: "1.5rem",
-                    borderRadius: "0.5rem",
-                    textAlign: "center",
-                    border: "1px solid #444",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: "2rem",
-                      marginBottom: "0.5rem",
-                      color: achievement.color,
-                    }}
-                  >
-                    {achievement.icon}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "1.1rem",
-                      fontWeight: "bold",
-                      marginBottom: "0.25rem",
-                    }}
-                  >
-                    {achievement.title}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.9rem",
-                      color: "#0ea5e9",
-                      marginBottom: "0.5rem",
-                    }}
-                  >
-                    {achievement.semester}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.8rem",
-                      color: "#ccc",
-                      lineHeight: "1.4",
-                    }}
-                  >
-                    {achievement.description}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </main>

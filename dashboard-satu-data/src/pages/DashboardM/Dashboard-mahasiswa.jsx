@@ -1,9 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 
 const DashboardMahasiswa = ({ user, onLogout }) => {
+  const navigate = useNavigate();
+
   const statsData = [
     {
       number: "79.420",
@@ -30,25 +33,32 @@ const DashboardMahasiswa = ({ user, onLogout }) => {
       title: "Kinerja Akademik",
       icon: "📁",
       color: "#4a90e2",
+      path: "/kinerja-akademik",
     },
     {
       title: "Risiko Akademik",
       icon: "📊",
       color: "#e74c3c",
+      path: "/my-statistik",
     },
     {
       title: "Riwayat Nilai Kuliah",
       icon: "📚",
       color: "#27ae60",
+      path: "/riwayat-mata-kuliah",
     },
   ];
 
+  const handleCategoryClick = (path) => {
+    navigate(path);
+  };
+
   return (
     <div className="dashboard-layout">
-      <Sidebar isLoggedIn={true} userRole="mahasiswa" onLogout={onLogout}/>
+      <Sidebar isLoggedIn={true} userRole="mahasiswa" onLogout={onLogout} />
 
       <div className="dashboard-content">
-        <Header isLoggedIn={true} user={user} onLogout={onLogout}/>
+        <Header isLoggedIn={true} user={user} onLogout={onLogout} />
 
         <main className="dashboard-main">
           <div className="hero-section">
@@ -85,7 +95,12 @@ const DashboardMahasiswa = ({ user, onLogout }) => {
               <h2 className="categories-title">Kategori</h2>
               <div className="categories-grid">
                 {categories.map((category, index) => (
-                  <div key={index} className="category-card">
+                  <div
+                    key={index}
+                    className="category-card clickable"
+                    onClick={() => handleCategoryClick(category.path)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <div
                       className="category-icon"
                       style={{ color: category.color }}
@@ -99,7 +114,7 @@ const DashboardMahasiswa = ({ user, onLogout }) => {
             </div>
           </div>
         </main>
-        <Footer isLoggedIn={true}/>
+        <Footer isLoggedIn={true} />
       </div>
     </div>
   );
