@@ -9,88 +9,86 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 
-const MyStatistik = ({ user, onLogout }) => {
-  const [selectedSemester, setSelectedSemester] = useState("Semester 1");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+const MyStatistik = ({ user, onLogout, isDarkMode, toggleDarkMode }) => {
+  const [selectedSemester, setSelectedSemester] = useState("Semester 4");
   const navigate = useNavigate();
 
-  // Data untuk setiap semester
+  // Dummy data for semester 4
   const semesterData = {
     "Semester 1": {
       ip: [
-        { semester: "2022-1", ip: 3.2 },
-        { semester: "2022-2", ip: 3.4 },
-        { semester: "2023-1", ip: 3.6 },
-        { semester: "2023-2", ip: 3.7 },
-        { semester: "2024-1", ip: 3.8 },
+        { semester: "1", ip: 3.5 },
+        { semester: "2", ip: 3.6 },
+        { semester: "3", ip: 3.7 },
+        { semester: "4", ip: 3.7 }
       ],
       courses: [
-        { week: "Mata Kuliah 1", grade: 3.5 },
-        { week: "Mata Kuliah 2", grade: 3.7 },
-        { week: "Mata Kuliah 3", grade: 3.8 },
-        { week: "Mata Kuliah 4", grade: 3.9 },
-        { week: "Mata Kuliah 5", grade: 3.6 },
-        { week: "Mata Kuliah 6", grade: 3.4 },
+        { week: "MK1", grade: 3.7 },
+        { week: "MK2", grade: 3.8 },
+        { week: "MK3", grade: 3.6 },
+        { week: "MK4", grade: 3.7 }
       ],
-      sks: 20,
-      lulus: 249,
-      tidakLulus: 1,
+      sks: 24,
+      lulus: 6,
+      tidakLulus: 0
     },
     "Semester 2": {
       ip: [
-        { semester: "2022-1", ip: 3.0 },
-        { semester: "2022-2", ip: 3.3 },
-        { semester: "2023-1", ip: 3.5 },
-        { semester: "2023-2", ip: 3.6 },
-        { semester: "2024-1", ip: 3.7 },
+        { semester: "1", ip: 3.5 },
+        { semester: "2", ip: 3.6 },
+        { semester: "3", ip: 3.7 },
+        { semester: "4", ip: 3.7 }
       ],
       courses: [
-        { week: "Mata Kuliah 1", grade: 3.3 },
-        { week: "Mata Kuliah 2", grade: 3.5 },
-        { week: "Mata Kuliah 3", grade: 3.6 },
-        { week: "Mata Kuliah 4", grade: 3.8 },
-        { week: "Mata Kuliah 5", grade: 3.4 },
-        { week: "Mata Kuliah 6", grade: 3.2 },
+        { week: "MK1", grade: 3.6 },
+        { week: "MK2", grade: 3.7 },
+        { week: "MK3", grade: 3.5 },
+        { week: "MK4", grade: 3.6 }
       ],
-      sks: 18,
-      lulus: 185,
-      tidakLulus: 3,
+      sks: 24,
+      lulus: 6,
+      tidakLulus: 0
     },
     "Semester 3": {
       ip: [
-        { semester: "2022-1", ip: 2.8 },
-        { semester: "2022-2", ip: 3.1 },
-        { semester: "2023-1", ip: 3.4 },
-        { semester: "2023-2", ip: 3.5 },
-        { semester: "2024-1", ip: 3.6 },
+        { semester: "1", ip: 3.5 },
+        { semester: "2", ip: 3.6 },
+        { semester: "3", ip: 3.7 },
+        { semester: "4", ip: 3.7 }
       ],
       courses: [
-        { week: "Mata Kuliah 1", grade: 3.1 },
-        { week: "Mata Kuliah 2", grade: 3.3 },
-        { week: "Mata Kuliah 3", grade: 3.4 },
-        { week: "Mata Kuliah 4", grade: 3.6 },
-        { week: "Mata Kuliah 5", grade: 3.2 },
-        { week: "Mata Kuliah 6", grade: 3.0 },
+        { week: "MK1", grade: 3.7 },
+        { week: "MK2", grade: 3.8 },
+        { week: "MK3", grade: 3.6 },
+        { week: "MK4", grade: 3.7 }
       ],
-      sks: 22,
-      lulus: 156,
-      tidakLulus: 5,
+      sks: 24,
+      lulus: 6,
+      tidakLulus: 0
     },
+    "Semester 4": {
+      ip: [
+        { semester: "1", ip: 3.5 },
+        { semester: "2", ip: 3.6 },
+        { semester: "3", ip: 3.7 },
+        { semester: "4", ip: 3.7 }
+      ],
+      courses: [
+        { week: "MK1", grade: 3.8 },
+        { week: "MK2", grade: 3.7 },
+        { week: "MK3", grade: 3.9 },
+        { week: "MK4", grade: 3.7 }
+      ],
+      sks: 24,
+      lulus: 6,
+      tidakLulus: 0
+    }
   };
-
-  const riskData = [
-    { name: "Progress Optimal", value: 75, color: "#22c55e" },
-    { name: "Risiko Rendah", value: 15, color: "#eab308" },
-    { name: "Risiko Tinggi", value: 10, color: "#ef4444" },
-  ];
 
   const currentData = semesterData[selectedSemester];
 
@@ -103,12 +101,17 @@ const MyStatistik = ({ user, onLogout }) => {
       <Sidebar isLoggedIn={true} userRole="mahasiswa" onLogout={onLogout} />
 
       <div className="dashboard-content">
-        <Header isLoggedIn={true} user={user} onLogout={onLogout} />
-
+        <Header
+          isLoggedIn={true}
+          userRole={user?.role}
+          userName={user?.name}
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+          onLogout={onLogout}
+        />
         <main className="dashboard-main">
           <h1 className="dashboard-title">Dashboard Status Mahasiswa/i</h1>
 
-          {/* Chart & Risk Section */}
           <div className="charts-grid">
             {/* IP Chart */}
             <div className="chart-card">
@@ -116,79 +119,43 @@ const MyStatistik = ({ user, onLogout }) => {
                 <div className="legend-container">
                   <span className="legend-item">
                     <span className="legend-dot legend-dot-green"></span>
-                    IP Kumulatif
+                    IP Kumulatif: 3.7
                   </span>
                   <span className="legend-item legend-item-gray">
                     <span className="legend-dot legend-dot-gray"></span>
-                    IP Semester
+                    Kehadiran: 98%
                   </span>
                 </div>
                 <div className="chart-stats">
-                  <div>SKS: 1000</div>
-                  <div>
-                    Lulus: {currentData.lulus} | Tidak Lulus:{" "}
-                    {currentData.tidakLulus}
-                  </div>
+                  <div>SKS: {currentData.sks}</div>
+                  <div>Lulus: {currentData.lulus} | Tidak Lulus: {currentData.tidakLulus}</div>
                 </div>
               </div>
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={currentData.ip}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis
-                    dataKey="semester"
-                    tick={{ fill: "white", fontSize: 12 }}
-                  />
-                  <YAxis
-                    domain={[0, 4]}
-                    tick={{ fill: "white", fontSize: 12 }}
-                  />
+                  <XAxis dataKey="semester" tick={{ fill: "white", fontSize: 12 }} />
+                  <YAxis domain={[0, 4]} tick={{ fill: "white", fontSize: 12 }} />
                   <Bar dataKey="ip" fill="#22c55e" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
 
-            {/* Risk Category */}
+            {/* Risk */}
             <div className="chart-card">
               <h2 className="risk-title">Kategori Risiko Akademik</h2>
               <div className="risk-bars">
-                {["Semester 1", "Semester 2", "Semester 3"].map((smt, i) => (
+                {["Semester 1", "Semester 2", "Semester 3", "Semester 4"].map((smt, i) => (
                   <div key={i} className="risk-bar-item">
                     <span className="risk-bar-label">{smt}</span>
                     <div className="risk-bar-container">
                       <div
                         className="risk-bar-fill"
-                        style={{ width: `${80 - i * 10}%` }}
+                        style={{ width: `${100 - i * 0}%` }}
                       />
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="pie-chart-container">
-                <div className="pie-chart-wrapper">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={riskData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={30}
-                        outerRadius={60}
-                        paddingAngle={2}
-                        dataKey="value"
-                      >
-                        {riskData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <div className="pie-chart-center">
-                    <div>
-                      <div>Progress</div>
-                      <div>Optimal</div>
-                    </div>
-                  </div>
-                </div>
               </div>
               <button onClick={handleViewMore} className="view-more-btn">
                 Lihat Selengkapnya
@@ -208,6 +175,7 @@ const MyStatistik = ({ user, onLogout }) => {
                 <option>Semester 1</option>
                 <option>Semester 2</option>
                 <option>Semester 3</option>
+                <option>Semester 4</option>
               </select>
             </div>
             <ResponsiveContainer width="100%" height={250}>

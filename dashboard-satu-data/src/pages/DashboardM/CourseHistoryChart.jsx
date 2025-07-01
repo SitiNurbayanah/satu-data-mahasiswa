@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import {
   LineChart,
@@ -15,7 +16,7 @@ import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 
-const CourseHistoryChart = ({ user, onLogout }) => {
+const CourseHistoryChart = ({ user, onLogout, isDarkMode, toggleDarkMode }) => {
   const [selectedSemester, setSelectedSemester] = useState("Semester 1");
   const [viewType, setViewType] = useState("line"); // 'line' or 'bar'
 
@@ -272,8 +273,14 @@ const CourseHistoryChart = ({ user, onLogout }) => {
       <Sidebar isLoggedIn={true} userRole="mahasiswa" onLogout={onLogout} />
 
       <div className="dashboard-content">
-        <Header isLoggedIn={true} user={user} onLogout={onLogout} />
-
+        <Header
+          isLoggedIn={true}
+          userRole={user?.role}
+          userName={user?.name}
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+          onLogout={onLogout}
+        />
         <main className="dashboard-main">
           <h1
             style={{
@@ -281,6 +288,7 @@ const CourseHistoryChart = ({ user, onLogout }) => {
               fontSize: "2rem",
               marginBottom: "2rem",
               fontWeight: "bold",
+              color: isDarkMode ? "#f3f4f6" : "#111827",
             }}
           >
             Riwayat Mata Kuliah

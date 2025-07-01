@@ -1,27 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 
-const KinerjaAkademik = ({ user, onLogout }) => {
-  // Data semester dengan progress seperti di gambar
-  const semesterProgress = [
+const KinerjaAkademik = ({ user, onLogout, isDarkMode, toggleDarkMode }) => {
+  // Dummy data showing 100% progress up to semester 4
+  const [semesterProgress] = useState([
     { semester: "Semester 1", progress: 100 },
     { semester: "Semester 2", progress: 100 },
-    { semester: "Semester 3", progress: 50 },
-    { semester: "Semester 4", progress: 0 },
+    { semester: "Semester 3", progress: 100 },
+    { semester: "Semester 4", progress: 100 },
     { semester: "Semester 5", progress: 0 },
     { semester: "Semester 6", progress: 0 },
     { semester: "Semester 7", progress: 0 },
     { semester: "Semester 8", progress: 0 },
-  ];
+  ]);
 
-  // Komponen Donut Chart
+  // Donut Chart component
   const DonutChart = () => {
-    const completedSemesters = semesterProgress.filter(
-      (s) => s.progress === 100
-    ).length;
-    const totalSemesters = semesterProgress.length;
+    const completedSemesters = 4; // 4 semesters completed
+    const totalSemesters = 8;
     const percentage = (completedSemesters / totalSemesters) * 100;
 
     return (
@@ -32,7 +30,6 @@ const KinerjaAkademik = ({ user, onLogout }) => {
           viewBox="0 0 200 200"
           className="donut-chart"
         >
-          {/* Background circle */}
           <circle
             cx="100"
             cy="100"
@@ -41,7 +38,6 @@ const KinerjaAkademik = ({ user, onLogout }) => {
             stroke="#333"
             strokeWidth="20"
           />
-          {/* Progress arc */}
           <circle
             cx="100"
             cy="100"
@@ -75,8 +71,14 @@ const KinerjaAkademik = ({ user, onLogout }) => {
       <Sidebar isLoggedIn={true} userRole="mahasiswa" onLogout={onLogout} />
 
       <div className="dashboard-content">
-        <Header isLoggedIn={true} user={user} onLogout={onLogout} />
-
+        <Header
+          isLoggedIn={true}
+          userRole={user?.role}
+          userName={user?.name}
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+          onLogout={onLogout}
+        />
         <main className="dashboard-main">
           <h1
             style={{
@@ -84,12 +86,12 @@ const KinerjaAkademik = ({ user, onLogout }) => {
               fontSize: "2rem",
               marginBottom: "2rem",
               fontWeight: "bold",
+              color: isDarkMode ? "#f3f4f6" : "#111827",
             }}
           >
             Dashboard Status Mahasiswa/i
           </h1>
 
-          {/* Academic Risk Category Section */}
           <div
             style={{
               backgroundColor: "#1a1a1a",
@@ -111,7 +113,6 @@ const KinerjaAkademik = ({ user, onLogout }) => {
             </h2>
 
             <div style={{ display: "flex", gap: "3rem", alignItems: "center" }}>
-              {/* Progress bars */}
               <div style={{ flex: 1 }}>
                 {semesterProgress.map((semester, index) => (
                   <div key={index} style={{ marginBottom: "1rem" }}>
@@ -130,7 +131,7 @@ const KinerjaAkademik = ({ user, onLogout }) => {
                       style={{
                         width: "100%",
                         height: "8px",
-                        backgroundColor: "#333",
+                        backgroundColor: "#444",
                         borderRadius: "4px",
                         overflow: "hidden",
                       }}
@@ -151,7 +152,6 @@ const KinerjaAkademik = ({ user, onLogout }) => {
                 ))}
               </div>
 
-              {/* Donut Chart */}
               <div style={{ position: "relative" }}>
                 <DonutChart />
               </div>

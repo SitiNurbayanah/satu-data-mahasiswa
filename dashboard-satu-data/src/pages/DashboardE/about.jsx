@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 
-const About = ({ isDarkMode, toggleDarkMode }) => {
+const About = ({ onLogout, isDarkMode, toggleDarkMode }) => {
+  const [role, setRole] = useState("general");
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedRole) setRole(storedRole);
+    if (storedUser) setLoggedIn(true);
+  }, []);
+
   const systemStats = [
     {
       number: "2025",
@@ -11,18 +22,21 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
       icon: "🚀",
       bgColor: "#2c3e50",
       color: isDarkMode ? "#ccc" : "#666",
+      
     },
     {
       number: "79.420",
       label: "Data Mahasiswa",
       icon: "👨‍🎓",
       bgColor: "#2c3e50",
+      color: isDarkMode ? "#ccc" : "#666",
     },
     {
       number: "100%",
       label: "Data Terintegrasi",
       icon: "📊",
       bgColor: "#2c3e50",
+      color: isDarkMode ? "#ccc" : "#666",
     },
   ];
 
@@ -30,53 +44,53 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
     {
       title: "Dashboard Interaktif",
       icon: "📊",
-      color: "#4a90e2",
+      color: isDarkMode ? "#ccc" : "#666",
       description:
         "Visualisasi data mahasiswa dengan grafik yang mudah dipahami",
     },
     {
       title: "Data Real-time",
       icon: "⚡",
-      color: "#e74c3c",
+      color: isDarkMode ? "#ccc" : "#666",
       description: "Informasi terkini yang diperbarui secara otomatis",
     },
     {
       title: "Analisis Mendalam",
       icon: "🔍",
-      color: "#27ae60",
+      color: isDarkMode ? "#ccc" : "#666",
       description: "Insight dan analisis data untuk pengambilan keputusan",
     },
     {
       title: "Keamanan Data",
       icon: "🔒",
-      color: "#f39c12",
+      color: isDarkMode ? "#ccc" : "#666",
       description: "Sistem keamanan berlapis untuk melindungi data mahasiswa",
     },
     {
       title: "Akses Multi-platform",
       icon: "📱",
-      color: "#9b59b6",
+      color: isDarkMode ? "#ccc" : "#666",
       description: "Dapat diakses melalui desktop, tablet, dan smartphone",
     },
     {
       title: "Laporan Otomatis",
       icon: "📋",
-      color: "#e67e22",
+      color: isDarkMode ? "#ccc" : "#666",
       description: "Generate laporan komprehensif dengan satu klik",
     },
   ];
 
   return (
-    <div className={`dashboard-layout ${isDarkMode ? "dark-mode" : ""}`}>
-      <Sidebar isLoggedIn={false} userRole="general" />
-
+    <div className="dashboard-layout">
+      <Sidebar isLoggedIn={loggedIn} userRole={role} />
       <div className="dashboard-content">
         <Header
-        isLoggedIn={false}
-        isDarkMode={isDarkMode}
-        toggleDarkMode={toggleDarkMode}
-      />
-
+          isLoggedIn={true}
+          userRole="eksekutif"
+          onLogout={onLogout}
+          isDarkMode={isDarkMode}       // 🔥 ini penting
+          toggleDarkMode={toggleDarkMode} // 🔥 ini juga penting
+        />
 
         <main
           className="dashboard-main"
@@ -84,23 +98,23 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
             padding: "0",
             margin: "0",
             marginLeft: "250px",
-            backgroundColor: isDarkMode ? "#121212" : "white",
-            color: isDarkMode ? "#eee" : "black",
+            backgroundColor: isDarkMode ? "#1a1a1a" : "white",
+            color: isDarkMode ? "white" : "black",
           }}
         >
           {/* Hero Section */}
-          <section
-            className="hero-section"
-            style={{
-            background: isDarkMode
-              ? "linear-gradient(135deg, #111 0%, #333 100%)"
-              : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-              padding: "80px 40px",
-              color: "white",
-              textAlign: "center",
-              marginBottom: "0",
-            }}
-          >
+            <section
+              className="hero-section"
+              style={{
+                background: isDarkMode
+                  ? "linear-gradient(135deg, #111 0%, #333 100%)" // gradient gelap untuk dark mode
+                  : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", // original untuk light mode
+                padding: "80px 40px",
+                color: "white",
+                textAlign: "center",
+                marginBottom: "0",
+              }}
+            >
             <div
               className="hero-content"
               style={{ maxWidth: "1200px", margin: "0 auto" }}
@@ -112,7 +126,7 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
                   fontWeight: "bold",
                   marginBottom: "20px",
                   lineHeight: "1.2",
-                  color: isDarkMode ? "#eee" : "#2c3e50",
+                  color: "white",
                 }}
               >
                 Tentang Sistem
@@ -169,16 +183,14 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
           </section>
 
           {/* Stats Section */}
-          <section
-            className="stats-section"
-            style={{
-              padding: "60px 40px",
-              background: isDarkMode
-                ? "#1e1e1e"
-                : "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
-              marginBottom: "0",
-            }}
-          >
+            <section
+              className="stats-section"
+              style={{
+                padding: "60px 40px",
+                backgroundColor: isDarkMode ? "#2a2a2a" : "#f5f7fa",
+                marginBottom: "0",
+              }}
+            >
             <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
               <div
                 className="stats-grid"
@@ -193,8 +205,7 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
                     key={index}
                     className="stat-card"
                     style={{
-                      background: isDarkMode ? "#333" : "white",
-                      color: isDarkMode ? "#eee" : "#2c3e50",
+                      backgroundColor: isDarkMode ? "#333" : "white",
                       padding: "40px 30px",
                       borderRadius: "15px",
                       textAlign: "center",
@@ -207,7 +218,7 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
                       className="stat-icon"
                       style={{
                         fontSize: "3rem",
-                        marginBottom: "15px",
+                        marginBottom: "25px",
                       }}
                     >
                       {stat.icon}
@@ -217,7 +228,7 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
                       style={{
                         fontSize: "2.5rem",
                         fontWeight: "bold",
-                        color: isDarkMode ? "#ccc" : "#666",
+                        color: isDarkMode ? "#fff" : "#2c3e50",
                         marginBottom: "10px",
                       }}
                     >
@@ -244,28 +255,28 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
             className="about-content-section"
             style={{
               padding: "80px 40px",
-              background: isDarkMode ? "#1e1e1e" : "white",
+              backgroundColor: isDarkMode ? "#1a1a1a" : "white",
               marginBottom: "0",
             }}
           >
             <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
               <div className="about-text" style={{ textAlign: "center" }}>
-                <h2
-                  className="dashboard-title"
-                  style={{
-                    fontSize: "2.8rem",
-                    fontWeight: "bold",
-                    color: isDarkMode ? "#ccc" : "#666",
-                    marginBottom: "40px",
-                    position: "relative",
-                  }}
-                >
-                  Latar Belakang dan Tujuan
+                  <h2
+                    className="dashboard-title"
+                    style={{
+                      fontSize: "2.8rem",
+                      fontWeight: "bold",
+                      color: isDarkMode ? "#fff" : "#2c3e50", // <-- adaptif dark mode
+                      marginBottom: "40px",
+                      position: "relative",
+                    }}
+                  >
+                    Latar Belakang dan Tujuan
                   <div
                     style={{
                       width: "100px",
                       height: "4px",
-                      background: "linear-gradient(45deg, #667eea, #764ba2)",
+                      background: isDarkMode? "rgba(255,255,255,0.8)": "linear-gradient(45deg, #667eea, #764ba2)", // original di light mode       
                       margin: "20px auto",
                       borderRadius: "2px",
                     }}
@@ -276,7 +287,7 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
                     textAlign: "left",
                     fontSize: "1.1rem",
                     lineHeight: "1.8",
-                    color: isDarkMode ? "#ccc" : "#444",
+                    color: isDarkMode ? "#ddd" : "#444",
                   }}
                 >
                   <p style={{ marginBottom: "25px" }}>
@@ -303,37 +314,39 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
           </section>
 
           {/* Features Section */}
-          <section
-            className="categories-section"
-            style={{
-              padding: "80px 40px",
-              background: isDarkMode
-                ? "linear-gradient(135deg, #222 0%, #333 100%)"
-                : "linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)",
-              marginBottom: "0",
-            }}
-          >
+            <section
+              className="categories-section"
+              style={{
+                padding: "80px 40px",
+                background: isDarkMode
+                  ? "linear-gradient(135deg, #111 0%, #333 100%)"  // gelap untuk dark mode
+                  : "linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)",  // original light mode
+                marginBottom: "0",
+              }}
+            >
             <div
               className="categories-container"
               style={{ maxWidth: "1200px", margin: "0 auto" }}
             >
-              <h2
-                className="dashboard-title"
-                style={{
-                  fontSize: "2.8rem",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  color: isDarkMode ? "#eee" : "#2c3e50",
-                  marginBottom: "60px",
-                  position: "relative",
-                }}
-              >
-                Fitur Utama Sistem
+            <h2
+              className="dashboard-title"
+              style={{
+                fontSize: "2.8rem",
+                fontWeight: "bold",
+                textAlign: "center",
+                color: isDarkMode ? "#fff" : "#2c3e50", // <-- adaptif dark mode
+                marginBottom: "60px",
+                position: "relative",
+              }}
+            >
+              Fitur Utama Sistem
                 <div
                   style={{
                     width: "100px",
                     height: "4px",
-                    background: "linear-gradient(45deg, #2c3e50, #34495e)",
+                    background: isDarkMode
+                      ? "rgba(255,255,255,0.8)"         // 🔥 putih semi transparan di dark mode
+                      : "linear-gradient(45deg, #2c3e50, #34495e)", // original di light mode
                     margin: "20px auto",
                     borderRadius: "2px",
                   }}
@@ -352,8 +365,7 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
                     key={index}
                     className="facility-card"
                     style={{
-                      background: isDarkMode ? "#333" : "white",
-                      color: isDarkMode ? "#eee" : "#2c3e50",
+                      backgroundColor: isDarkMode ? "#333" : "white",
                       padding: "30px",
                       borderRadius: "15px",
                       boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
@@ -380,7 +392,7 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
                         style={{
                           fontSize: "1.3rem",
                           fontWeight: "bold",
-                          color: isDarkMode ? "#eee" : "#2c3e50",
+                          color: isDarkMode ? "#fff" : "#2c3e50",
                           marginBottom: "10px",
                         }}
                       >
@@ -409,8 +421,8 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
               style={{
                 padding: "80px 40px",
                 background: isDarkMode
-                  ? "linear-gradient(135deg, #111 0%, #333 100%)"
-                  : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  ? "linear-gradient(135deg, #0e0e0e 0%, #222 100%)" // gelap untuk dark mode
+                  : "linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)", // original untuk light mode
                 color: "white",
                 marginBottom: "0",
               }}
@@ -573,7 +585,7 @@ const About = ({ isDarkMode, toggleDarkMode }) => {
             </div>
           </section>
         </main>
-        <Footer isLoggedIn={false} />
+        <Footer isLoggedIn={loggedIn} />
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
-/* JobDistribution.css - Updated to match PopulationChart style */
+/* File: src/styles/JobDistribution.css */
 
-/* Main container - matches PopulationChart structure */
 .job-page {
   display: flex;
   min-height: 100vh;
@@ -14,7 +13,6 @@
   width: 100%;
 }
 
-/* Header - matches PopulationChart exactly */
 .job-header {
   width: 100%;
   background-color: #1f2937;
@@ -24,14 +22,13 @@
   z-index: 100;
 }
 
-/* Main content area */
 .job-main {
   flex: 1;
   padding: 32px;
-  margin-left: 250px; /* Match sidebar width */
+  margin-left: 250px;
+  background-color: #1f2937;
 }
 
-/* Wrapper for chart content */
 .job-wrapper {
   max-width: 1000px;
   margin: 0 auto;
@@ -41,7 +38,6 @@
   padding: 50px;
 }
 
-/* Title style - matches PopulationChart */
 .job-title {
   text-align: center;
   font-size: 28px;
@@ -50,7 +46,6 @@
   color: #111827;
 }
 
-/* Back button - keep your existing style */
 .back-button {
   margin-bottom: 16px;
   display: flex;
@@ -73,74 +68,90 @@
   margin-right: 4px;
 }
 
-/* Chart container */
+/* === Pie Chart === */
 .pie-chart-container {
-  height: 400px;
-  margin-bottom: 32px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  aspect-ratio: 1 / 1;
+  max-width: 600px;
+  width: 100%;
+  margin: 30px auto;
 }
 
-/* Job fields section */
+.pie-chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* === Bidang Kerja === */
 .job-fields-section {
-  margin-top: 32px;
+  margin-top: 40px;
+  padding: 0 20px;
 }
 
 .job-fields-title {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
-  color: #1f2937;
   text-align: center;
+  color: #1f2937;
 }
 
 .job-fields-list {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 400px;
-  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .job-field-item {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  background-color: #f9fafb;
-  border-radius: 6px;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--card-bg, #f9f9f9);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 250px;
+  max-width: 300px;
 }
 
 .job-field-color {
-  width: 16px;
-  height: 16px;
-  margin-right: 12px;
-  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
 }
 
 .job-field-text {
+  font-size: 0.9rem;
   font-weight: 500;
   color: #374151;
-  font-size: 15px;
 }
 
-/* Responsive Design - adjusted to match PopulationChart */
+/* === Responsive === */
 @media (max-width: 1024px) {
   .job-main {
     padding: 24px;
     margin-left: 0;
   }
-  
+
   .job-wrapper {
     padding: 32px;
   }
-  
+
   .job-title {
     font-size: 24px;
   }
-  
+
   .pie-chart-container {
-    height: 350px;
+    height: 450px;
+  }
+
+  .pie-chart-container canvas {
+    width: 400px !important;
+    height: 400px !important;
   }
 }
 
@@ -148,22 +159,32 @@
   .job-main {
     padding: 16px;
   }
-  
+
   .job-wrapper {
     padding: 24px;
   }
-  
+
   .job-title {
     font-size: 20px;
     margin-bottom: 24px;
   }
-  
+
   .pie-chart-container {
-    height: 300px;
+    height: 400px;
   }
-  
+
+  .pie-chart-container canvas {
+    width: 350px !important;
+    height: 350px !important;
+  }
+
   .job-fields-title {
     font-size: 18px;
+  }
+
+  .job-field-item {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 }
 
@@ -171,20 +192,43 @@
   .job-wrapper {
     padding: 16px;
   }
-  
+
   .job-title {
     font-size: 18px;
   }
-  
+
   .pie-chart-container {
-    height: 250px;
+    height: 300px;
   }
-  
-  .job-fields-list {
-    max-width: 100%;
+
+  .pie-chart-container canvas {
+    width: 280px !important;
+    height: 280px !important;
   }
-  
+
   .job-field-text {
     font-size: 14px;
   }
+}
+
+/* === Dark Mode === */
+.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+.dark-mode .job-title,
+.dark-mode .job-fields-title,
+.dark-mode .job-field-text,
+.dark-mode .loading-text {
+  color: #f0f0f0;
+}
+
+.dark-mode .job-field-item {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+}
+
+.dark-mode .back-button {
+  color: #00bfff;
 }

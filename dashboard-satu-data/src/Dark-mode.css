@@ -1,0 +1,29 @@
+/* Untuk wrapper chart */
+.dark-mode .population-chart-wrapper,
+.dark-mode .graduation-chart-wrapper,
+.dark-mode .job-wrapper {
+  background-color: #1a1a1a !important;
+  color: #eee !important;
+}
+
+/* Title chart */
+.dark-mode .population-title,
+.dark-mode .graduation-title,
+.dark-mode .job-title {
+  color: #eee !important;
+}
+
+/* Card di population */
+.dark-mode .population-card {
+  background-color: #333 !important;
+  color: #eee !important;
+}
+
+/* Back button di job & graduation */
+.dark-mode .back-button {
+  color: #93c5fd !important;
+}
+
+.dark-mode .note {
+  color: #aaa !important;
+}

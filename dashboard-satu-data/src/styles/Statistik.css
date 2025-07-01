@@ -25,6 +25,8 @@
   flex: 1;
   padding: 32px;
   margin-left: 250px; /* Match sidebar width */
+  background-color: #1f2937;
+  color: white;
 }
 
 .statistik-chart-wrapper {

@@ -25,6 +25,7 @@
   flex: 1;
   padding: 32px;
   margin-left: 250px;
+  background-color: #1f2937;
 }
 
 .population-chart-wrapper {
@@ -144,3 +145,4 @@
   color: #d1d5db;
   margin-top: 12px;
 }
+

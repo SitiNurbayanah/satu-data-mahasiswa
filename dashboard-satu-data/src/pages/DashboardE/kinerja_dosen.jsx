@@ -1,26 +1,59 @@
-import React, { useState, useMemo } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState, useMemo, useEffect } from "react";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import Footer from "../../components/Footer";
 
-const KinerjaDosen = ({ onLogout }) => {
-  const [selectedTab, setSelectedTab] = useState("Status Dosen");
+const KinerjaDosen = ({ onLogout, isDarkMode, toggleDarkMode }) => {
   const [selectedFakultas, setSelectedFakultas] = useState("Semua");
   const [selectedJurusan, setSelectedJurusan] = useState("Semua");
   const [selectedStatus, setSelectedStatus] = useState("Semua");
+  const [dosenData, setDosenData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const fakultasOptions = [
-    "Semua",
-    "Tarbiyah dan Keguruan",
-    "Psikologi",
-    "FST",
-    "Ushuluddin",
-    "Syariah dan Hukum",
-    "Dakwah dan Komunikasi",
-    "Adab dan Humaniora",
-    "Ilmu Sosial dan Ilmu Politik",
-    "Ekonomi dan Bisnis Islam",
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/view/kinerja-dosen");
+        const result = await res.json();
+      if (result.status === "success") {
+        setDosenData(result.data);
+      } else {
+        setError("Gagal memuat data dosen");
+      }
+
+      } catch (err) {
+        setError("Terjadi kesalahan saat mengambil data dosen");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  
+  useEffect(() => {
+  if (isDarkMode) {
+    document.body.classList.add("dark-mode");
+  } else {
+    document.body.classList.remove("dark-mode");
+  }
+  }, [isDarkMode]);
+
+
+const fakultasOptions = [
+  "Semua",
+  "Fakultas Tarbiyah dan Keguruan",
+  "Fakultas Psikologi",
+  "Fakultas Sains dan Teknologi",
+  "Fakultas Ushuluddin",
+  "Fakultas Syariah dan Hukum",
+  "Fakultas Dakwah dan Komunikasi",
+  "Fakultas Adab dan Humaniora",
+  "Fakultas Ilmu Sosial dan Ilmu Politik",
+  "Fakultas Ekonomi dan Bisnis Islam",
+];
+
 
   const statusOptions = ["Semua", "Sangat Baik", "Baik", "Cukup"];
 
@@ -96,374 +129,16 @@ const KinerjaDosen = ({ onLogout }) => {
     ],
   };
 
-  // Rich sample data dosen dengan lebih banyak variasi
-  const dosenData = [
-    {
-      nama: "Prof. Dr. Ahmad Fauzi, M.Pd",
-      fakultas: "Tarbiyah dan Keguruan",
-      jurusan: "Pendidikan Matematika",
-      skor: "95%",
-      kategori: "Sangat Baik",
-      catatan: "Pengabdian rutin & Mengajar sesuai standar",
-      nidn: "0123456789",
-      jabatan: "Professor",
-      pendidikan: "S3 Pendidikan Matematika",
-      pengalamanMengajar: 25,
-      penelitian: 15,
-      pengabdian: 8,
-    },
-    {
-      nama: "Prof. Dr. Siti Nurhaliza, Ph.D",
-      fakultas: "FST",
-      jurusan: "Biologi",
-      skor: "88%",
-      kategori: "Baik",
-      catatan: "Aktif menulis jurnal internasional",
-      nidn: "0123456790",
-      jabatan: "Professor",
-      pendidikan: "S3 Biologi Molekuler",
-      pengalamanMengajar: 20,
-      penelitian: 25,
-      pengabdian: 5,
-    },
-    {
-      nama: "Dr. Muhammad Rizki, M.Kom",
-      fakultas: "FST",
-      jurusan: "Teknik Informatika",
-      skor: "92%",
-      kategori: "Sangat Baik",
-      catatan: "Penelitian konsisten & disiplin",
-      nidn: "0123456791",
-      jabatan: "Lektor Kepala",
-      pendidikan: "S3 Informatika",
-      pengalamanMengajar: 12,
-      penelitian: 18,
-      pengabdian: 6,
-    },
-    {
-      nama: "Dr. Fatimah Az-Zahra, M.A",
-      fakultas: "Ushuluddin",
-      jurusan: "Aqidah dan Filsafat Islam",
-      skor: "85%",
-      kategori: "Baik",
-      catatan: "Aktif dalam kegiatan akademik",
-      nidn: "0123456792",
-      jabatan: "Lektor",
-      pendidikan: "S3 Studi Islam",
-      pengalamanMengajar: 10,
-      penelitian: 8,
-      pengabdian: 7,
-    },
-    {
-      nama: "Drs. Abdul Rahman, M.H",
-      fakultas: "Syariah dan Hukum",
-      jurusan: "Hukum Ekonomi Syariah (Muamalah)",
-      skor: "87%",
-      kategori: "Baik",
-      catatan: "Pembimbing skripsi terbaik",
-      nidn: "0123456793",
-      jabatan: "Lektor",
-      pendidikan: "S2 Hukum Islam",
-      pengalamanMengajar: 15,
-      penelitian: 6,
-      pengabdian: 10,
-    },
-    {
-      nama: "Dr. Aisyah Mardiyah, M.Psi",
-      fakultas: "Psikologi",
-      jurusan: "Psikologi",
-      skor: "90%",
-      kategori: "Sangat Baik",
-      catatan: "Inovasi metode pembelajaran",
-      nidn: "0123456794",
-      jabatan: "Lektor Kepala",
-      pendidikan: "S3 Psikologi Klinis",
-      pengalamanMengajar: 14,
-      penelitian: 12,
-      pengabdian: 9,
-    },
-    {
-      nama: "Dr. Hassan Al-Banna, M.A",
-      fakultas: "Dakwah dan Komunikasi",
-      jurusan: "Komunikasi Penyiaran Islam",
-      skor: "83%",
-      kategori: "Baik",
-      catatan: "Aktif dalam kegiatan sosial",
-      nidn: "0123456795",
-      jabatan: "Lektor",
-      pendidikan: "S3 Komunikasi",
-      pengalamanMengajar: 11,
-      penelitian: 7,
-      pengabdian: 12,
-    },
-    {
-      nama: "Prof. Dr. Aminah Wadud, Ph.D",
-      fakultas: "Adab dan Humaniora",
-      jurusan: "Bahasa dan Sastra Arab",
-      skor: "94%",
-      kategori: "Sangat Baik",
-      catatan: "Peneliti terkemuka bidang sastra",
-      nidn: "0123456796",
-      jabatan: "Professor",
-      pendidikan: "S3 Sastra Arab",
-      pengalamanMengajar: 22,
-      penelitian: 20,
-      pengabdian: 6,
-    },
-    {
-      nama: "Dr. Budi Santoso, M.Si",
-      fakultas: "Ilmu Sosial dan Ilmu Politik",
-      jurusan: "Sosiologi",
-      skor: "86%",
-      kategori: "Baik",
-      catatan: "Aktif dalam penelitian masyarakat",
-      nidn: "0123456797",
-      jabatan: "Lektor",
-      pendidikan: "S3 Sosiologi",
-      pengalamanMengajar: 13,
-      penelitian: 10,
-      pengabdian: 8,
-    },
-    {
-      nama: "Dr. Khadijah, M.E.I",
-      fakultas: "Ekonomi dan Bisnis Islam",
-      jurusan: "Ekonomi Syariah",
-      skor: "89%",
-      kategori: "Baik",
-      catatan: "Konsultan ekonomi syariah",
-      nidn: "0123456798",
-      jabatan: "Lektor Kepala",
-      pendidikan: "S3 Ekonomi Islam",
-      pengalamanMengajar: 16,
-      penelitian: 14,
-      pengabdian: 11,
-    },
-    {
-      nama: "Dr. Ali Imron, M.Pd",
-      fakultas: "Tarbiyah dan Keguruan",
-      jurusan: "Pendidikan Agama Islam",
-      skor: "78%",
-      kategori: "Cukup",
-      catatan: "Perlu peningkatan kualitas mengajar",
-      nidn: "0123456799",
-      jabatan: "Asisten Ahli",
-      pendidikan: "S3 Pendidikan Islam",
-      pengalamanMengajar: 8,
-      penelitian: 4,
-      pengabdian: 5,
-    },
-    {
-      nama: "Drs. Yusuf Abdullah, M.A",
-      fakultas: "Ushuluddin",
-      jurusan: "Ilmu Hadits",
-      skor: "80%",
-      kategori: "Cukup",
-      catatan: "Fokus pada pengembangan kurikulum",
-      nidn: "0123456800",
-      jabatan: "Lektor",
-      pendidikan: "S2 Ilmu Hadits",
-      pengalamanMengajar: 18,
-      penelitian: 5,
-      pengabdian: 7,
-    },
-    {
-      nama: "Dr. Mariam Sholehah, M.Pd",
-      fakultas: "Tarbiyah dan Keguruan",
-      jurusan: "Pendidikan Bahasa Inggris",
-      skor: "91%",
-      kategori: "Sangat Baik",
-      catatan: "Ahli linguistik terapan",
-      nidn: "0123456801",
-      jabatan: "Lektor Kepala",
-      pendidikan: "S3 Applied Linguistics",
-      pengalamanMengajar: 17,
-      penelitian: 16,
-      pengabdian: 8,
-    },
-    {
-      nama: "Prof. Dr. Ibrahim Nasution, M.A",
-      fakultas: "Ushuluddin",
-      jurusan: "Ilmu al-Qur'an dan Tafsir/Tafsir Hadits",
-      skor: "96%",
-      kategori: "Sangat Baik",
-      catatan: "Pakar tafsir kontemporer",
-      nidn: "0123456802",
-      jabatan: "Professor",
-      pendidikan: "S3 Ilmu Al-Quran dan Tafsir",
-      pengalamanMengajar: 28,
-      penelitian: 22,
-      pengabdian: 15,
-    },
-    {
-      nama: "Dr. Nurcholis Madjid, M.Si",
-      fakultas: "FST",
-      jurusan: "Matematika",
-      skor: "84%",
-      kategori: "Baik",
-      catatan: "Spesialis matematika murni",
-      nidn: "0123456803",
-      jabatan: "Lektor",
-      pendidikan: "S3 Matematika",
-      pengalamanMengajar: 9,
-      penelitian: 11,
-      pengabdian: 4,
-    },
-    {
-      nama: "Dr. Zainab Al-Ghazali, M.Psi",
-      fakultas: "Psikologi",
-      jurusan: "Psikologi",
-      skor: "87%",
-      kategori: "Baik",
-      catatan: "Terapis keluarga bersertifikat",
-      nidn: "0123456804",
-      jabatan: "Lektor",
-      pendidikan: "S3 Psikologi Keluarga",
-      pengalamanMengajar: 11,
-      penelitian: 9,
-      pengabdian: 13,
-    },
-    {
-      nama: "Dr. Hamka Hasan, M.H",
-      fakultas: "Syariah dan Hukum",
-      jurusan: "Hukum Keluarga (Ahwal Al-Syakhsiyyah)",
-      skor: "82%",
-      kategori: "Baik",
-      catatan: "Mediator hukum keluarga",
-      nidn: "0123456805",
-      jabatan: "Lektor",
-      pendidikan: "S3 Hukum Keluarga",
-      pengalamanMengajar: 12,
-      penelitian: 8,
-      pengabdian: 14,
-    },
-    {
-      nama: "Dr. Sukarno Wibowo, M.Kom",
-      fakultas: "FST",
-      jurusan: "Teknik Informatika",
-      skor: "88%",
-      kategori: "Baik",
-      catatan: "Developer aplikasi mobile",
-      nidn: "0123456806",
-      jabatan: "Lektor",
-      pendidikan: "S3 Computer Science",
-      pengalamanMengajar: 10,
-      penelitian: 13,
-      pengabdian: 6,
-    },
-    {
-      nama: "Prof. Dr. Azyumardi Azra, M.A",
-      fakultas: "Adab dan Humaniora",
-      jurusan: "Sejarah Peradaban Islam",
-      skor: "97%",
-      kategori: "Sangat Baik",
-      catatan: "Sejarawan Islam terkemuka",
-      nidn: "0123456807",
-      jabatan: "Professor",
-      pendidikan: "S3 Islamic History",
-      pengalamanMengajar: 30,
-      penelitian: 35,
-      pengabdian: 20,
-    },
-    {
-      nama: "Dr. Riska Andriani, M.E.I",
-      fakultas: "Ekonomi dan Bisnis Islam",
-      jurusan: "Manajemen",
-      skor: "85%",
-      kategori: "Baik",
-      catatan: "Konsultan manajemen strategis",
-      nidn: "0123456808",
-      jabatan: "Lektor",
-      pendidikan: "S3 Manajemen Strategis",
-      pengalamanMengajar: 8,
-      penelitian: 7,
-      pengabdian: 9,
-    },
-    {
-      nama: "Dr. Ahmad Syafii Maarif, M.A",
-      fakultas: "Dakwah dan Komunikasi",
-      jurusan: "Manajemen Dakwah",
-      skor: "89%",
-      kategori: "Baik",
-      catatan: "Praktisi dakwah berpengalaman",
-      nidn: "0123456809",
-      jabatan: "Lektor Kepala",
-      pendidikan: "S3 Islamic Studies",
-      pengalamanMengajar: 19,
-      penelitian: 11,
-      pengabdian: 16,
-    },
-    {
-      nama: "Dr. Nursyam Ridwan, M.Sos",
-      fakultas: "Ilmu Sosial dan Ilmu Politik",
-      jurusan: "Ilmu Politik",
-      skor: "81%",
-      kategori: "Baik",
-      catatan: "Analis politik kontemporer",
-      nidn: "0123456810",
-      jabatan: "Lektor",
-      pendidikan: "S3 Ilmu Politik",
-      pengalamanMengajar: 14,
-      penelitian: 12,
-      pengabdian: 7,
-    },
-    {
-      nama: "Dr. Miftahul Huda, M.Pd",
-      fakultas: "Tarbiyah dan Keguruan",
-      jurusan: "Pendidikan Biologi",
-      skor: "86%",
-      kategori: "Baik",
-      catatan: "Inovator pembelajaran sains",
-      nidn: "0123456811",
-      jabatan: "Lektor",
-      pendidikan: "S3 Pendidikan Biologi",
-      pengalamanMengajar: 12,
-      penelitian: 10,
-      pengabdian: 8,
-    },
-    {
-      nama: "Dr. Sarah Qonita, M.A",
-      fakultas: "Adab dan Humaniora",
-      jurusan: "Sastra Inggris",
-      skor: "83%",
-      kategori: "Baik",
-      catatan: "Kritikus sastra modern",
-      nidn: "0123456812",
-      jabatan: "Lektor",
-      pendidikan: "S3 English Literature",
-      pengalamanMengajar: 13,
-      penelitian: 9,
-      pengabdian: 6,
-    },
-    {
-      nama: "Dr. Wahyu Nugroho, M.Si",
-      fakultas: "FST",
-      jurusan: "Fisika",
-      skor: "79%",
-      kategori: "Cukup",
-      catatan: "Peneliti fisika teoretis",
-      nidn: "0123456813",
-      jabatan: "Asisten Ahli",
-      pendidikan: "S3 Fisika Teoretis",
-      pengalamanMengajar: 6,
-      penelitian: 8,
-      pengabdian: 3,
-    },
-  ];
+const filteredDosenData = useMemo(() => {
+  return dosenData.filter((dosen) => {
+    const fakultasMatch =
+      selectedFakultas === "Semua" || dosen.fakultas === selectedFakultas;
+    const statusMatch =
+      selectedStatus === "Semua" || dosen.kategori === selectedStatus;
+    return fakultasMatch && statusMatch;
+  });
+}, [dosenData, selectedFakultas, selectedStatus]);
 
-  // Filter data berdasarkan fakultas dan jurusan yang dipilih
-  const filteredDosenData = useMemo(() => {
-    return dosenData.filter((dosen) => {
-      const fakultasMatch =
-        selectedFakultas === "Semua" || dosen.fakultas === selectedFakultas;
-      const jurusanMatch =
-        selectedJurusan === "Semua" || dosen.jurusan === selectedJurusan;
-      const statusMatch =
-        selectedStatus === "Semua" || dosen.kategori === selectedStatus;
-      return fakultasMatch && jurusanMatch && statusMatch;
-    });
-  }, [selectedFakultas, selectedJurusan, selectedStatus]);
-
-  // Hitung statistik berdasarkan data yang difilter
   const chartData = useMemo(() => {
     const sangatBaik = filteredDosenData.filter(
       (d) => d.kategori === "Sangat Baik"
@@ -474,41 +149,73 @@ const KinerjaDosen = ({ onLogout }) => {
     ).length;
     const total = filteredDosenData.length;
 
-    return {
-      sangat_baik: total > 0 ? Math.round((sangatBaik / total) * 100) : 0,
-      baik: total > 0 ? Math.round((baik / total) * 100) : 0,
-      cukup: total > 0 ? Math.round((cukup / total) * 100) : 0,
-      counts: { sangatBaik, baik, cukup, total },
-    };
+      return {
+        sangat_baik: total > 0 ? Math.round((sangatBaik / total) * 100) : 0,
+        baik: total > 0 ? Math.round((baik / total) * 100) : 0,
+        cukup: total > 0 ? Math.round((cukup / total) * 100) : 0,
+        counts: { sangatBaik, baik, cukup, total },
+        totalPersen: total > 0 ? 100 : 0, // <-- Tambahkan ini
+      };
+
   }, [filteredDosenData]);
 
-  // Handle perubahan fakultas
   const handleFakultasChange = (fakultas) => {
     setSelectedFakultas(fakultas);
     setSelectedJurusan("Semua");
   };
 
-  // Menghitung sudut untuk donut chart
-  const total = chartData.sangat_baik + chartData.baik + chartData.cukup;
-  const sangatBaikAngle = total > 0 ? (chartData.sangat_baik / 100) * 360 : 0;
-  const baikAngle = total > 0 ? (chartData.baik / 100) * 360 : 0;
-  const cukupAngle = total > 0 ? (chartData.cukup / 100) * 360 : 0;
+  const totalPersen = chartData.sangat_baik + chartData.baik + chartData.cukup;
+  const sangatBaikAngle = totalPersen > 0 ? (chartData.sangat_baik / totalPersen) * 360 : 0;
+  const baikAngle = totalPersen > 0 ? (chartData.baik / totalPersen) * 360 : 0;
+  const cukupAngle = totalPersen > 0 ? (chartData.cukup / totalPersen) * 360 : 0;
+  const isFiltered = selectedFakultas !== 'Semua' || selectedStatus !== 'Semua';
+
+
+  if (loading) {
+    return <div style={{ color: "white", padding: "2rem" }}>Memuat data...</div>;
+  }
+
+  if (error) {
+    return <div style={{ color: "red", padding: "2rem" }}>{error}</div>;
+  }
 
   return (
-    <div className="dashboard-layout">
+    <div className={`dashboard-layout ${isDarkMode ? "dark-mode" : ""}`}>
       <Sidebar isLoggedIn={true} userRole="eksekutif" onLogout={onLogout} />
       <div className="dashboard-content">
-        <Header isLoggedIn={true} user="eksekutif" onLogout={onLogout} />
+          <Header
+            isLoggedIn={true}
+            userRole="eksekutif"
+            onLogout={onLogout}
+            isDarkMode={isDarkMode}       // 🔥 ini penting
+            toggleDarkMode={toggleDarkMode} // 🔥 ini juga penting
+          />
         <main className="dashboard-main">
           <h1 className="dashboard-title">Kinerja Dosen</h1>
           {/* Filter Section */}
-          <div className="filter-section">
+          <div
+            className="filter-section"
+            style={{
+              backgroundColor: isDarkMode ? "#1f2937" : "#ffffff",
+              padding: "24px",
+              borderRadius: "12px",
+              marginBottom: "24px",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+            }}
+          >
             <div className="filter-group">
-              <label>Fakultas:</label>
+              <label style={{ color: isDarkMode ? "#e5e7eb" : "#111827" }}>Fakultas:</label>
               <select
                 value={selectedFakultas}
                 onChange={(e) => handleFakultasChange(e.target.value)}
                 className="filter-select"
+                style={{
+                  backgroundColor: isDarkMode ? "#374151" : "#ffffff",
+                  color: isDarkMode ? "#f9fafb" : "#111827",
+                  border: "1px solid #d1d5db",
+                  padding: "8px 12px",
+                  borderRadius: "6px",
+                }}
               >
                 {fakultasOptions.map((fakultas) => (
                   <option key={fakultas} value={fakultas}>
@@ -519,26 +226,18 @@ const KinerjaDosen = ({ onLogout }) => {
             </div>
 
             <div className="filter-group">
-              <label>Jurusan:</label>
-              <select
-                value={selectedJurusan}
-                onChange={(e) => setSelectedJurusan(e.target.value)}
-                className="filter-select"
-              >
-                {jurusanByFakultas[selectedFakultas]?.map((jurusan) => (
-                  <option key={jurusan} value={jurusan}>
-                    {jurusan}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label>Status:</label>
+              <label style={{ color: isDarkMode ? "#e5e7eb" : "#111827" }}>Status:</label>
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
                 className="filter-select"
+                style={{
+                  backgroundColor: isDarkMode ? "#374151" : "#ffffff",
+                  color: isDarkMode ? "#f9fafb" : "#111827",
+                  border: "1px solid #d1d5db",
+                  padding: "8px 12px",
+                  borderRadius: "6px",
+                }}
               >
                 {statusOptions.map((status) => (
                   <option key={status} value={status}>
@@ -578,98 +277,127 @@ const KinerjaDosen = ({ onLogout }) => {
                     gap: "16px",
                   }}
                 >
-                  <svg width="200" height="200" viewBox="0 0 200 200">
-                    {total > 0 ? (
-                      <>
-                        <circle
-                          cx="100"
-                          cy="100"
-                          r="80"
-                          fill="none"
-                          stroke="#10b981"
-                          strokeWidth="30"
-                          strokeDasharray={`${
-                            (sangatBaikAngle / 360) * 502.65
-                          } 502.65`}
-                          strokeDashoffset="0"
-                          transform="rotate(-90 100 100)"
-                        />
-                        <circle
-                          cx="100"
-                          cy="100"
-                          r="80"
-                          fill="none"
-                          stroke="#22c55e"
-                          strokeWidth="30"
-                          strokeDasharray={`${
-                            (baikAngle / 360) * 502.65
-                          } 502.65`}
-                          strokeDashoffset={`-${
-                            (sangatBaikAngle / 360) * 502.65
-                          }`}
-                          transform="rotate(-90 100 100)"
-                        />
-                        <circle
-                          cx="100"
-                          cy="100"
-                          r="80"
-                          fill="none"
-                          stroke="#84cc16"
-                          strokeWidth="30"
-                          strokeDasharray={`${
-                            (cukupAngle / 360) * 502.65
-                          } 502.65`}
-                          strokeDashoffset={`-${
-                            ((sangatBaikAngle + baikAngle) / 360) * 502.65
-                          }`}
-                          transform="rotate(-90 100 100)"
-                        />
-                      </>
-                    ) : (
-                      <circle
-                        cx="100"
-                        cy="100"
-                        r="80"
-                        fill="none"
-                        stroke="#6b7280"
-                        strokeWidth="30"
-                      />
-                    )}
-                    <text
-                      x="100"
-                      y="90"
-                      textAnchor="middle"
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: "bold",
-                        fill: "#ffffff",
-                      }}
-                    >
-                      {chartData.sangat_baik}%
-                    </text>
-                    <text
-                      x="100"
-                      y="110"
-                      textAnchor="middle"
-                      style={{
-                        fontSize: "14px",
-                        fill: "#9ca3af",
-                      }}
-                    >
-                      {chartData.baik}%
-                    </text>
-                    <text
-                      x="100"
-                      y="125"
-                      textAnchor="middle"
-                      style={{
-                        fontSize: "14px",
-                        fill: "#9ca3af",
-                      }}
-                    >
-                      {chartData.cukup}%
-                    </text>
-                  </svg>
+<svg width="200" height="200" viewBox="0 0 200 200">
+  {chartData.counts.total === 0 ? (
+    <circle
+      cx="100"
+      cy="100"
+      r="80"
+      fill="none"
+      stroke="#6b7280"
+      strokeWidth="30"
+      strokeDasharray="502.65"
+      transform="rotate(-90 100 100)"
+    />
+  ) : (
+    <>
+      {/* Segmen sangat baik */}
+      <circle
+        cx="100"
+        cy="100"
+        r="80"
+        fill="none"
+        stroke={chartData.sangat_baik === 0 ? "#6b7280" : "#10b981"}
+        strokeWidth="30"
+        strokeDasharray={`${
+          chartData.sangat_baik === 0 ? 0.5 : (sangatBaikAngle / 360) * 502.65
+        } 502.65`}
+        strokeDashoffset="0"
+        transform="rotate(-90 100 100)"
+      />
+      {/* Baik */}
+      <circle
+        cx="100"
+        cy="100"
+        r="80"
+        fill="none"
+        stroke={chartData.baik === 0 ? "#6b7280" : "#22c55e"}
+        strokeWidth="30"
+        strokeDasharray={`${
+          chartData.baik === 0 ? 0.5 : (baikAngle / 360) * 502.65
+        } 502.65`}
+        strokeDashoffset={`-${(sangatBaikAngle / 360) * 502.65}`}
+        transform="rotate(-90 100 100)"
+      />
+      {/* Cukup */}
+      <circle
+        cx="100"
+        cy="100"
+        r="80"
+        fill="none"
+        stroke={chartData.cukup === 0 ? "#6b7280" : "#84cc16"}
+        strokeWidth="30"
+        strokeDasharray={`${
+          chartData.cukup === 0 ? 0.5 : (cukupAngle / 360) * 502.65
+        } 502.65`}
+        strokeDashoffset={`-${
+          ((sangatBaikAngle + baikAngle) / 360) * 502.65
+        }`}
+        transform="rotate(-90 100 100)"
+      />
+    </>
+  )}
+
+  {/* Persentase teks */}
+  {isFiltered ? (
+    <text
+      x="100"
+      y="110"
+      textAnchor="middle"
+      style={{
+        fontSize: "20px",
+        fontWeight: "bold",
+        fill: "#ffffff",
+      }}
+    >
+      {chartData.totalPersen}%
+    </text>
+  ) : (
+    <>
+      {chartData.sangat_baik > 0 && (
+        <text
+          x="100"
+          y="90"
+          textAnchor="middle"
+          style={{
+            fontSize: "18px",
+            fontWeight: "bold",
+            fill: "#ffffff",
+          }}
+        >
+          {chartData.sangat_baik}%
+        </text>
+      )}
+      {chartData.baik > 0 && (
+        <text
+          x="100"
+          y="110"
+          textAnchor="middle"
+          style={{
+            fontSize: "14px",
+            fill: "#22c55e",
+            fontWeight: "bold",
+          }}
+        >
+          {chartData.baik}%
+        </text>
+      )}
+      {chartData.cukup > 0 && (
+        <text
+          x="100"
+          y="125"
+          textAnchor="middle"
+          style={{
+            fontSize: "14px",
+            fill: "#9ca3af",
+          }}
+        >
+          {chartData.cukup}%
+        </text>
+      )}
+    </>
+  )}
+</svg>
                   <div
                     style={{
                       color: "#9ca3af",
@@ -786,58 +514,59 @@ const KinerjaDosen = ({ onLogout }) => {
                   borderCollapse: "collapse",
                 }}
               >
-                <thead>
-                  <tr
+              <thead>
+                <tr
+                  style={{
+                    borderBottom: "1px solid #374151",
+                  }}
+                >
+                  <th
                     style={{
-                      borderBottom: "1px solid #374151",
+                      padding: "12px 16px",
+                      textAlign: "left",
+                      color: "#9ca3af",
+                      fontSize: "14px",
+                      fontWeight: "500",
                     }}
                   >
-                    <th
-                      style={{
-                        padding: "12px 16px",
-                        textAlign: "left",
-                        color: "#9ca3af",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Nama Dosen
-                    </th>
-                    <th
-                      style={{
-                        padding: "12px 16px",
-                        textAlign: "left",
-                        color: "#9ca3af",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Jurusan
-                    </th>
-                    <th
-                      style={{
-                        padding: "12px 16px",
-                        textAlign: "left",
-                        color: "#9ca3af",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Skor
-                    </th>
-                    <th
-                      style={{
-                        padding: "12px 16px",
-                        textAlign: "left",
-                        color: "#9ca3af",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Catatan
-                    </th>
-                  </tr>
-                </thead>
+                    Nama Dosen
+                  </th>
+                  <th
+                    style={{
+                      padding: "12px 16px",
+                      textAlign: "left",
+                      color: "#9ca3af",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Fakultas
+                  </th>
+                  <th
+                    style={{
+                      padding: "12px 16px",
+                      textAlign: "left",
+                      color: "#9ca3af",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Skor Evaluasi
+                  </th>
+                  <th
+                    style={{
+                      padding: "12px 16px",
+                      textAlign: "left",
+                      color: "#9ca3af",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Kategori
+                  </th>
+                </tr>
+              </thead>
+
                 <tbody>
                   {filteredDosenData.length > 0 ? (
                     filteredDosenData.map((dosen, index) => (
@@ -854,9 +583,9 @@ const KinerjaDosen = ({ onLogout }) => {
                             fontSize: "14px",
                           }}
                         >
-                          {dosen.nama}
+                          {dosen.nama_dosen}
                         </td>
-                        <td
+                       {/* <td
                           style={{
                             padding: "12px 16px",
                             color: "#9ca3af",
@@ -864,7 +593,7 @@ const KinerjaDosen = ({ onLogout }) => {
                           }}
                         >
                           {dosen.jurusan}
-                        </td>
+                        </td>*/}
                         <td
                           style={{
                             padding: "12px 16px",
@@ -878,7 +607,7 @@ const KinerjaDosen = ({ onLogout }) => {
                                 : "#84cc16",
                           }}
                         >
-                          {dosen.skor}
+                          {dosen.skor_evaluasi !== null ? dosen.skor_evaluasi : "-"}
                         </td>
                         <td
                           style={{
@@ -887,7 +616,7 @@ const KinerjaDosen = ({ onLogout }) => {
                             fontSize: "14px",
                           }}
                         >
-                          {dosen.catatan}
+                          {dosen.kategori}
                         </td>
                       </tr>
                     ))
@@ -920,7 +649,6 @@ const KinerjaDosen = ({ onLogout }) => {
             }}
           ></div>
         </main>
-
         <Footer isLoggedIn={true} />
       </div>
     </div>

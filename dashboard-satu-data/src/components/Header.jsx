@@ -1,25 +1,29 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({
   isLoggedIn = false,
   userRole = "general",
   userName = "",
+  isDarkMode,
+  toggleDarkMode,
+  toggleSidebar, // Tambahkan prop ini untuk mengontrol sidebar
 }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const navigate = useNavigate();
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle("dark-mode");
-  };
-
-  // Tentukan nama pengguna berdasarkan role
   const displayName =
     userRole === "eksekutif"
-      ? "Mamat"
+      ? ""
       : userName || (userRole === "mahasiswa" ? "Mahasiswa" : "Eksekutif");
 
-  // Render header untuk halaman login (general)
+  const handleProfileClick = () => {
+    if (userRole === "eksekutif") {
+      navigate("/dashboard-eksekutif/profile");
+    } else if (userRole === "mahasiswa") {
+      navigate("/dashboard-mahasiswa/profile");
+    }
+  };
+
   if (!isLoggedIn) {
     return (
       <header className="header">
@@ -30,16 +34,13 @@ const Header = ({
           </div>
         </div>
         <div className="header-right">
-          <Link to="/about" className="about-link" style={{ color: "white" }}>
-            About
-          </Link>
           <div className="theme-toggle">
             <span className="theme-icon">☀️</span>
             <label className="switch">
               <input
                 type="checkbox"
-                checked={isDarkMode}
-                onChange={toggleDarkMode}
+                checked={!!isDarkMode}
+                onChange={toggleDarkMode || (() => {})}
               />
               <span className="slider"></span>
             </label>
@@ -50,42 +51,17 @@ const Header = ({
     );
   }
 
-  // Render header untuk dashboard (setelah login)
   return (
     <header className={`dashboard-header ${userRole}`}>
       <div className="header-left">
-        <div className="logo">
+        {/* Tambahkan onClick handler untuk logo */}
+        <div className="logo" onClick={toggleSidebar} style={{cursor: 'pointer'}}>
           <img src="/logo-uin.png" alt="SDM Logo" />
           <span className="logo-text">SDM</span>
         </div>
       </div>
 
-      <div className="header-center">
-        {userRole === "eksekutif" && (
-          <div className="admin-badge">
-            <span className="badge-icon">⭐</span>
-          </div>
-        )}
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder={
-              userRole === "eksekutif"
-                ? "Search Reports and Analytics"
-                : userRole === "mahasiswa"
-                ? "Search Courses and Notes"
-                : "Search"
-            }
-            className="search-input"
-          />
-          <span className="search-icon">🔍</span>
-        </div>
-      </div>
-
       <div className="header-right">
-        <Link to="/about" className="about-link" style={{ color: "white" }}>
-          About
-        </Link>
         <div className="theme-toggle">
           <span className="theme-icon">☀️</span>
           <label className="switch">
@@ -100,13 +76,17 @@ const Header = ({
         </div>
         <div className="user-profile">
           <span className="user-name">{displayName}</span>
-          <div className="user-avatar">
+          <button
+            onClick={handleProfileClick}
+            className="user-avatar hover:scale-105 transition-transform"
+            title="Lihat Profil"
+          >
             {userRole === "eksekutif"
               ? "👔"
               : userRole === "mahasiswa"
               ? "🎓"
               : "👤"}
-          </div>
+          </button>
           {userRole === "eksekutif" && (
             <div className="user-role-badge">EKSEKUTIF</div>
           )}
